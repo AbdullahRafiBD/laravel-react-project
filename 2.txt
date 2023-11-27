@@ -1,0 +1,44 @@
+1. command -> create react app
+	npx create-react-app reactapp
+
+
+2. command -> install package bootstrap
+	npm install react-bootstrap bootstrap
+
+3. command -> install package router
+	npm install react-router
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,57 @@
+1. command -> install laravel -->
+	composer create-project laravel/laravel laravel
+
+2. create database -> http://localhost:8080/phpmyadmin -->
+	new-> react
+
+3. .env -->
+	DB_DATABASE=react
+
+
+4. command -> add data on database -->
+	php artisan migrate
+
+5. add user data on users table
+
+
+6. command -> APIController make controller -->
+	php artisan make:controller APIController
+
+
+7. routes\api.php -->
+	Route::get('users', 'App\Http\Controllers\APIController@getUsers');
+
+
+8. App\Http\Controllers\APIController -->
+	public function getUsers()
+    {
+        $getUser = User::get();
+        return $getUser;
+    }
+
+
+9. get data ->
+	http://127.0.0.1:8000/api/users
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
