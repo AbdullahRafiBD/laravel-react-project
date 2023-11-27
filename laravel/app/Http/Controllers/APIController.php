@@ -10,6 +10,8 @@ class APIController extends Controller
     public function getUsers()
     {
         $getUser = User::get();
-        return $getUser;
+        // return $getUser;
+
+        return response()->json(['users' => $getUser], 200);
     }
 }

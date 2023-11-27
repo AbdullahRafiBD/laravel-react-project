@@ -1,0 +1,52 @@
+1. command-> reactapp -> install axios -->
+	npm i axios
+
+2. laravel -> app\Http\Controllers\APIController.php -->
+	public function getUsers()
+    {
+        $getUser = User::get();
+        // return $getUser;
+
+        return response()->json(['users' => $getUser], 200);
+    }
+
+
+3. reactapp -> src\App.js -> function App() { -->
+	// declare user variable to fetch user data from database vai axios
+  const [user, setUser] = useState([]);
+
+  const fetchData = () => {
+    return axios.get('http://127.0.0.1:8000/api/users')
+      .then((response) => setUser(response.data['users']));
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+
+4. reactapp -> src\App.js -> function App() { -> return ( -->
+	<h1>user data</h1>
+      <ul>
+        {user && user.length > 0 && user.map((userObj, index) => (
+          <li key={userObj.id}>{userObj.name}</li>
+        ))}
+      </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
