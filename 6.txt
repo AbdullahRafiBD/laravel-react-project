@@ -1,0 +1,44 @@
+	Class Components/ Old Method of React
+
+
+1. create file -> react-vite -> src -->
+	Home.jsx
+
+2. react-vite\src\Home.jsx -->
+	import { Component } from "react";
+
+class Home extends Component {
+  render() {
+    return (
+      <div>
+        <h1>this is class components</h1>
+      </div>
+    );
+  }
+}
+
+export default Home;
+
+
+3. src/App.jsx -->
+	import Home from "./Home";
+
+4. src/App.jsx -> return ( -->
+	<Home />
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

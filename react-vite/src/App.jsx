@@ -3,6 +3,7 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import axios from "axios";
+import Home from "./Home";
 
 function App() {
   // declare user variable to fetch user data from database vai axios
@@ -32,6 +33,7 @@ function App() {
 
   return (
     <>
+      <Home />
       <h1>user data</h1>
       <ul>
         {user &&
