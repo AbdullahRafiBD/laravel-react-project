@@ -1,0 +1,99 @@
+1. react -> src\App.jsx -> return ( -->
+	<Function text="This is functional Components" />
+
+
+2.  react -> src\Function.jsx -->
+	const Function = (prop) => {
+  return <div>{prop.text}</div>;
+};
+
+
+3. react -> src\Function.jsx -->
+	const Function = (prop) => {
+  return <div>{prop.text}</div>;
+};
+
+const Test1 = (prop) => {
+  return <div>{prop.text}</div>;
+};
+
+export default Function;
+
+
+4. react -> src\App.jsx -> return ( -->
+	<Test1 text="This is test1 functional Components" />
+
+5. react -> src\App.jsx ->
+	import Test1 from "./Function";
+
+
+	------------Multiple Data---------
+
+6. create file -> react -> src -->
+	User.jsx
+
+
+7. react -> src\App.jsx -->
+	<User
+        name={{ data: "Abdullah" }}
+        address={{ data: "90/2 dhanmondi" }}
+      ></User>
+      <User
+        name={{ data: "shihab" }}
+        address={{ data: "90/2 mogbazar" }}
+      ></User>
+      <User name={{ data: "Rafi" }} address={{ data: "90/2 kolabagan" }}></User>
+
+
+8. react -> src\User.jsx -->
+	const User = (prop) => {
+  return (
+    <div>
+      <h1>{prop.name.data}</h1>
+      <h3>{prop.address.data}</h3>
+    </div>
+  );
+};
+
+export default User;
+
+
+	------------Class components Single Data---------
+
+
+9. react -> src\App.jsx -->
+	<Home text={"This is Home Class Components"}></Home>
+
+10. react -> src\Home.jsx -> class Home extends Component { -> render() { -> return ( -->
+        <h1>{this.props.text}</h1>
+
+        
+	------------Class components Multiple Data---------
+
+11. react -> src\App.jsx -->
+	{/* Multiple data for class  */}
+      <Home name={{ data: "kasem" }} address={{ data: "90/2 mogbazar" }}></Home>
+      <Home name={{ data: "sadi" }} address={{ data: "90/2 kolabagan" }}></Home>
+
+12. react -> src\Home.jsx -> class Home extends Component { -> render() { -> return ( -->
+	<p>{this.props.name.data}</p>
+        <p>{this.props.address.data}</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
