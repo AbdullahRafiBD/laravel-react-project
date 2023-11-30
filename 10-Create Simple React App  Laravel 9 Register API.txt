@@ -1,0 +1,96 @@
+1. copy ecom9 laravel Project
+
+
+2. laravel -> create folder -> ecom9\app\Http\Controllers -->
+	API
+
+3. command -> create API Controller -->
+	php artisan make:controller API/APIController
+
+
+4. laravel -> routes\api.php -->
+	Route::namespace('App\Http\Controllers\API')->group(function () {
+    // Register Router for React App
+    Route::post('register-user', 'APIController@registerUser');
+});
+
+
+5. laravel -> ecom9\app\Http\Controllers\API\APIController.php -->
+	public function registerUser(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->input();
+            echo '<pre>';
+            print_r($data);
+            die;
+        }
+    }
+
+6. Thunder Client API Test -> 
+	POST -> 
+	http://127.0.0.1:8000/api/register-user ->
+	Body ->
+	JSON ->
+
+	{
+  	"name":"amit",
+  	"email":"amit@amit.com",
+  	"password":"123456"
+	}
+
+	--> Send Button Click
+
+7.  laravel -> Save data on database -> ecom9\app\Http\Controllers\API\APIController.php -->
+	if ($request->isMethod('post')) {
+            $data = $request->input();
+            // echo '<pre>';
+            // print_r($data);
+            // die;
+            $user = new User;
+            $user->name = $data['name'];
+            $user->mobile = $data['mobile'];
+            $user->email = $data['email'];
+            $user->password = bcrypt($data['password']);
+            $user->status = 1;
+            $user->save();
+            return response()->json(['status' => true, 'message' => 'User Register Successfully!'], 201);
+        }
+
+8. Thunder Client API Test -> 
+	POST -> 
+	http://127.0.0.1:8000/api/register-user ->
+	Body ->
+	JSON ->
+	{
+  	"name":"amit",
+  	"mobile":"01599999999",
+  	"email":"amit@amit.com",
+  	"password":"123456"
+	}
+
+	--> Send Button Click
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
