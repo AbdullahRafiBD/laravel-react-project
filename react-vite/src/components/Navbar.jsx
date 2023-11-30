@@ -40,6 +40,11 @@ const Navbar = () => {
                 Contact
               </Link>
             </li>
+            <li className="nav-item">
+              <Link to={"/register"} className="nav-link" href="#">
+                Register
+              </Link>
+            </li>
           </ul>
           <form className="d-flex" role="search">
             <input
