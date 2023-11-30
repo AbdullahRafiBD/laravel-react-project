@@ -1,0 +1,16 @@
+1. Arrow Function -->
+	const about = () => {
+  return (
+    <div>about</div>
+  )
+}
+
+
+2. Arrow Function -->
+	const About = () => <div>about page</div>;
+
+
+3. Normal Function -->
+	function About() {
+  return <div>Normal function About page</div>;
+}
