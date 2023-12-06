@@ -1,0 +1,201 @@
+1. react-vite -> src\components\Register.jsx -> const Register = () => { -> async function save() { -->
+	if (name == "") {
+      alert("please Enter your name");
+    }else{
+      
+    }
+
+2. react-vite -> src\components\Register.jsx -> const Register = () => { -> async function save() { --> 
+	async function save() {
+    if (name == "") {
+      alert("please Enter your name");
+    } else {
+      let item = { name, email, mobile, password };
+      // console.warn(item);
+      let result = await fetch("http://127.0.0.1:8000/api/register-user", {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(item),
+      });
+      result = await result.json();
+      console.warn("result", result);
+      navigate("/thanks");
+    }
+  }
+
+
+3. react-vite -> src\components\Register.jsx -> const Register = () => { -> async function save() { -->
+	if (name == "") {
+      alert("please Enter your name");
+    } else if (email == "") {
+      alert("please Enter your email");
+    } else if (mobile == "") {
+      alert("please Enter your mobile");
+    } else if (password == "") {
+      alert("please Enter your password");
+    } else {
+     }
+
+
+4. react-vite -> Valid email -> src\components\Register.jsx -> const Register = () => { -> async function save() { -->
+	let filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+	
+	else if (email == "") {
+      	alert("please Enter your email");
+    	} 
+    	else if (!filter.test(email)) {
+      	alert("please Enter a valid email");
+    	}
+
+5. react-vite -> full code -> src\components\Register.jsx -> const Register = () => { -> async function save() { -->
+	async function save() {
+    let filter =
+      /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+    if (name == "") {
+      alert("please Enter your name");
+    } else if (email == "") {
+      alert("please Enter your email");
+    } else if (!filter.test(email)) {
+      alert("please Enter a valid email");
+    } else if (mobile == "") {
+      alert("please Enter your mobile");
+    } else if (password == "") {
+      alert("please Enter your password");
+    } else {
+      let item = { name, email, mobile, password };
+      // console.warn(item);
+      let result = await fetch("http://127.0.0.1:8000/api/register-user", {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(item),
+      });
+      result = await result.json();
+      console.warn("result", result);
+      navigate("/thanks");
+    }
+  }
+
+
+
+6. laravel -> validation -> ecom9\app\Http\Controllers\API\APIController.php -> public function registerUser(Request $request){ -> if ($request->isMethod('post')) { -->
+	$rules = [
+                'name' => "required",
+                'email' => "required|email|unique:users",
+                'mobile' => "required",
+                'password' => "required",
+            ];
+            $customMessages = [
+                'name.required' => "Name is Required",
+                'email.required' => "Email is Required",
+                'email.email' => "Enter a valid email",
+                'email.unique' => "Email must be Unique",
+                'mobile.required' => "Mobile is Required",
+                'password.required' => "Password is Required",
+            ];
+            $validator = Validator::make($data, $rules, $customMessages);
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 422);
+            }
+
+7. react-vite -> Validation -> src\components\Register.jsx -> const Register = () => { -> async function save() { -->
+	// alert(result["email"]);
+      if (result["email"] == "Email must be Unique") {
+        alert(result["email"]);
+      } else {
+        navigate("/thanks");
+      }
+
+
+8. react-vite -> full code -> src\components\Register.jsx -> const Register = () => { -> async function save() { -->
+	async function save() {
+    let filter =
+      /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+    if (name == "") {
+      alert("please Enter your name");
+    } else if (email == "") {
+      alert("please Enter your email");
+    } else if (!filter.test(email)) {
+      alert("please Enter a valid email");
+    } else if (mobile == "") {
+      alert("please Enter your mobile");
+    } else if (password == "") {
+      alert("please Enter your password");
+    } else {
+      let item = { name, email, mobile, password };
+      // console.warn(item);
+      let result = await fetch("http://127.0.0.1:8000/api/register-user", {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(item),
+      });
+      result = await result.json();
+
+      // alert(result["email"]);
+      if (result["email"] == "Email must be Unique") {
+        alert(result["email"]);
+      } else {
+        navigate("/thanks");
+      }
+
+      console.warn("result", result);
+    }
+  }
+
+
+9. laravel -> Full code -> ecom9\app\Http\Controllers\API\APIController.php -> public function registerUser(Request $request){ -->
+	public function registerUser(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->input();
+            // echo '<pre>';
+            // print_r($data);
+            // die;
+
+            $rules = [
+                'name' => "required",
+                'email' => "required|email|unique:users",
+                'mobile' => "required",
+                'password' => "required",
+            ];
+            $customMessages = [
+                'name.required' => "Name is Required",
+                'email.required' => "Email is Required",
+                'email.email' => "Enter a valid email",
+                'email.unique' => "Email must be Unique",
+                'mobile.required' => "Mobile is Required",
+                'password.required' => "Password is Required",
+            ];
+            $validator = Validator::make($data, $rules, $customMessages);
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 422);
+            }
+
+            $user = new User;
+            $user->name = $data['name'];
+            $user->mobile = $data['mobile'];
+            $user->email = $data['email'];
+            $user->password = bcrypt($data['password']);
+            $user->status = 1;
+            $user->save();
+            return response()->json(['status' => true, 'message' => 'User Register Successfully!'], 201);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

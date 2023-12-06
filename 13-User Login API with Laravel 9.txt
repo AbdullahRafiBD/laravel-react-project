@@ -1,0 +1,133 @@
+1. laravel -> routes\api.php -> Route::namespace('App\Http\Controllers\API')->group(function () { -->
+	/ Login user Router for React App
+    Route::post('login-user', 'APIController@loginUser');
+
+
+2. laravel -> ecom9\app\Http\Controllers\API\APIController.php -->
+	public function loginUser(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->input();
+            echo '<pre>';
+            print_r($data);
+            die;
+        }
+    }
+
+3. Thunder Client API Test -> 
+	POST -> 
+	http://127.0.0.1:8000/api/login-user ->
+	Body ->
+	JSON ->
+
+	{
+  	"email":"amit@amit.com",
+  	"password":"123456"
+	}
+
+	--> Send Button Click
+
+
+4. laravel -> Verify data -> ecom9\app\Http\Controllers\API\APIController.php -> public function loginUser(Reques $request){ -> if ($request->isMethod('post')) { -->
+	// Verify User email Details
+            $userCount = User::where('email', $data['email'])->count();
+            if ($userCount > 0) {
+                // Fetch User Details
+                $userDetails = User::where('email', $data['email'])->first();
+
+                // Verify the password
+                if (password_verify($data['password'], $userDetails->password)) {
+                    return response()->json([
+                        'status' => true,
+                        'message' => 'User login successfully',
+                    ], 201);
+                } else {
+                    $massage = 'password is incorrect!';
+                    return response()->json([
+                        'status' => false,
+                        'message' => $massage,
+                    ], 422);
+                }
+            } else {
+                $massage = 'Email is incorrect!';
+                return response()->json([
+                    'status' => false,
+                    'message' => $massage,
+                ], 422);
+            }
+
+5. laravel -> Full code-> ecom9\app\Http\Controllers\API\APIController.php -> public function loginUser(Reques $request){ -->
+	public function loginUser(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->input();
+            // echo '<pre>';
+            // print_r($data);
+            // die;
+
+            // Verify User email Details
+            $userCount = User::where('email', $data['email'])->count();
+            if ($userCount > 0) {
+                // Fetch User Details
+                $userDetails = User::where('email', $data['email'])->first();
+
+                // Verify the password
+                if (password_verify($data['password'], $userDetails->password)) {
+                    return response()->json([
+                        'status' => true,
+                        'message' => 'User login successfully',
+                    ], 201);
+                } else {
+                    $massage = 'password is incorrect!';
+                    return response()->json([
+                        'status' => false,
+                        'message' => $massage,
+                    ], 422);
+                }
+            } else {
+                $massage = 'Email is incorrect!';
+                return response()->json([
+                    'status' => false,
+                    'message' => $massage,
+                ], 422);
+            }
+        }
+    }
+
+
+6. Thunder Client API Test -> 
+	POST -> 
+	http://127.0.0.1:8000/api/login-user ->
+	Body ->
+	JSON ->
+
+	{
+  	"email":"amit@amit.com",
+  	"password":"123456"
+	}
+
+	--> Send Button Click
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

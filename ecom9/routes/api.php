@@ -22,4 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::namespace('App\Http\Controllers\API')->group(function () {
     // Register Router for React App
     Route::post('register-user', 'APIController@registerUser');
+    // Login user Router for React App
+    Route::post('login-user', 'APIController@loginUser');
 });

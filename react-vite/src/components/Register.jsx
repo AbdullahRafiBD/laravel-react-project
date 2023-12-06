@@ -10,16 +10,38 @@ const Register = () => {
   const navigate = useNavigate();
 
   async function save() {
-    let item = { name, email, mobile, password };
-    // console.warn(item);
-    let result = await fetch("http://127.0.0.1:8000/api/register-user", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify(item),
-    });
-    result = await result.json();
-    console.warn("result", result);
-    navigate("/thanks");
+    let filter =
+      /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+    if (name == "") {
+      alert("please Enter your name");
+    } else if (email == "") {
+      alert("please Enter your email");
+    } else if (!filter.test(email)) {
+      alert("please Enter a valid email");
+    } else if (mobile == "") {
+      alert("please Enter your mobile");
+    } else if (password == "") {
+      alert("please Enter your password");
+    } else {
+      let item = { name, email, mobile, password };
+      // console.warn(item);
+      let result = await fetch("http://127.0.0.1:8000/api/register-user", {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(item),
+      });
+      result = await result.json();
+
+      // alert(result["email"]);
+      if (result["email"] == "Email must be Unique") {
+        alert(result["email"]);
+      } else {
+        navigate("/thanks");
+      }
+
+      console.warn("result", result);
+    }
   }
 
   return (
