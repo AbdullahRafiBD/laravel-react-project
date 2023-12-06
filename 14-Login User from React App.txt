@@ -1,0 +1,143 @@
+1. react -> create jsx -> src\components -->
+	Login.jsx
+
+2. react -> src\App.jsx -> function App() { ->   return ( -> <Routes> -->
+	<Route path="/login" element={<Login></Login>}></Route>
+
+3. react -> src\components\Navbar.jsx -->
+	 <Link to={"/login"}> Login </Link>
+
+
+4. react -> src\components\Login.jsx -> const Login = () => { -->
+	// Login
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+5. react -> src\components\Login.jsx -> const Login = () => { -> return ( -->
+	input type="email" className="form-control" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
+
+	<input
+        type="password"
+        className="form-control"
+        placeholder="Enter Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+
+	<button onClick={loginUser} className="btn btn-primary">
+        Register
+      </button>
+
+
+6. react -> src\components\Login.jsx -> const Login = () => { -->
+	async function loginUser() {
+    let item = { email, password };
+    // console.warn(item);
+    let result = await fetch("http://127.0.0.1:8000/api/login-user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(item),
+    });
+    result = await result.json();
+    console.warn("result", result);
+  }
+ 
+
+
+7. react -> create jsx -> src\components -->
+	Account.jsx
+
+	
+8. react -> src\components\Login.jsx -> const Login = () => { -->
+	const navigate = useNavigate();
+
+9. react -> src\components\Login.jsx -> const Login = () => { -> async function loginUser() { -->
+	navigate("/account");
+
+10. react -> src\App.jsx -> function App() { ->   return ( -> <Routes> -->
+	<Route path="/account" element={<Account></Account>}></Route>
+
+
+11. react -> Full Code -> src\components\Login.jsx -->
+	import { useState } from "react";
+import { useNavigate } from "react-router";
+
+const Login = () => {
+  // Login
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  async function loginUser() {
+    let item = { email, password };
+    // console.warn(item);
+    let result = await fetch("http://127.0.0.1:8000/api/login-user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(item),
+    });
+    result = await result.json();
+    console.warn("result", result);
+
+    navigate("/account");
+  }
+
+  return (
+    <div className="col-sm-6 offset-sm-3">
+      <h1>Login</h1>
+
+      <br />
+      <input
+        type="email"
+        className="form-control"
+        placeholder="Enter email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <br />
+
+      <input
+        type="password"
+        className="form-control"
+        placeholder="Enter Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <br />
+      <button onClick={loginUser} className="btn btn-primary">
+        Register
+      </button>
+    </div>
+  );
+};
+
+export default Login;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
