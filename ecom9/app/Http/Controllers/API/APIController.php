@@ -4,7 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Validator;
+// use Validator;
+// use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class APIController extends Controller
@@ -56,6 +58,22 @@ class APIController extends Controller
             // print_r($data);
             // die;
 
+            // Validation
+            $rules = [
+                'email' => "required|email|exists:users",
+                'password' => "required",
+            ];
+            $customMessages = [
+                'email.required' => "Email is Required",
+                'email.email' => "Enter a valid email",
+                'email.exists' => "Email does not exists",
+                'password.required' => "Password is Required",
+            ];
+            $validator = Validator::make($data, $rules, $customMessages);
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 422);
+            }
+
             // Verify User email Details
             $userCount = User::where('email', $data['email'])->count();
             if ($userCount > 0) {
@@ -69,7 +87,7 @@ class APIController extends Controller
                         'message' => 'User login successfully',
                     ], 201);
                 } else {
-                    $massage = 'password is incorrect!';
+                    $massage = 'Password is incorrect!';
                     return response()->json([
                         'status' => false,
                         'message' => $massage,

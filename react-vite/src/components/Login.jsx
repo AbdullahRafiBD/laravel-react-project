@@ -10,6 +10,7 @@ const Login = () => {
   async function loginUser() {
     let item = { email, password };
     // console.warn(item);
+
     let result = await fetch("http://127.0.0.1:8000/api/login-user", {
       method: "POST",
       headers: {
@@ -18,9 +19,24 @@ const Login = () => {
       body: JSON.stringify(item),
     });
     result = await result.json();
-    console.warn("result", result);
-
-    navigate("/account");
+    // console.warn("result", result);
+    // alert(result["email"]);
+    if (result["email"] == "Email is Required") {
+      alert(result["email"]);
+    } else if (result["email"] == "Enter a valid email") {
+      alert(result["email"]);
+    } else if (result["email"] == "Email does not exists") {
+      alert(result["email"]);
+    } else if (result["message"] == "Email is incorrect!") {
+      alert(result["message"]);
+    } else if (result["password"] == "Password is Required") {
+      alert(result["password"]);
+    } else if (result["message"] == "Password is incorrect!") {
+      alert(result["message"]);
+    } else {
+      navigate("/account");
+    }
+    // navigate("/account");
   }
 
   return (

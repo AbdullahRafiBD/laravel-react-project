@@ -1,0 +1,158 @@
+1. laravel -> validation -> ecom9\app\Http\Controllers\API\APIController.php -> public function loginUser(Request $request){ -> if ($request->isMethod('post')) { -->
+	$rules = [
+                'email' => "required|email|exists:users",
+                'password' => "required",
+            ];
+            $customMessages = [
+                'email.required' => "Email is Required",
+                'email.email' => "Enter a valid email",
+                'email.exists' => "Email does not exists",
+                'password.required' => "Password is Required",
+            ];
+            $validator = Validator::make($data, $rules, $customMessages);
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 422);
+            }
+
+2. laravel -> Full Code -> ecom9\app\Http\Controllers\API\APIController.php -> public function loginUser(Request $request){ -->
+	public function loginUser(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->input();
+            // echo '<pre>';
+            // print_r($data);
+            // die;
+
+            // Validation
+            $rules = [
+                'email' => "required|email|exists:users",
+                'password' => "required",
+            ];
+            $customMessages = [
+                'email.required' => "Email is Required",
+                'email.email' => "Enter a valid email",
+                'email.exists' => "Email does not exists",
+                'password.required' => "Password is Required",
+            ];
+            $validator = Validator::make($data, $rules, $customMessages);
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 422);
+            }
+
+            // Verify User email Details
+            $userCount = User::where('email', $data['email'])->count();
+            if ($userCount > 0) {
+                // Fetch User Details
+                $userDetails = User::where('email', $data['email'])->first();
+
+                // Verify the password
+                if (password_verify($data['password'], $userDetails->password)) {
+                    return response()->json([
+                        'status' => true,
+                        'message' => 'User login successfully',
+                    ], 201);
+                } else {
+                    $massage = 'Password is incorrect!';
+                    return response()->json([
+                        'status' => false,
+                        'message' => $massage,
+                    ], 422);
+                }
+            } else {
+                $massage = 'Email is incorrect!';
+                return response()->json([
+                    'status' => false,
+                    'message' => $massage,
+                ], 422);
+            }
+        }
+    }
+
+
+3. react-vite -> Validation -> src\components\Login.jsx -> const Login = () => { -> async function loginUser() { -->
+	// console.warn("result", result);
+    // alert(result["email"]);
+    if (result["email"] == "Email is Required") {
+      alert(result["email"]);
+    } else if (result["email"] == "Enter a valid email") {
+      alert(result["email"]);
+    } else if (result["email"] == "Email does not exists") {
+      alert(result["email"]);
+    } else if (result["message"] == "Email is incorrect!") {
+      alert(result["message"]);
+    } else if (result["password"] == "Password is Required") {
+      alert(result["password"]);
+    } else if (result["message"] == "Password is incorrect!") {
+      alert(result["message"]);
+    } else {
+      navigate("/account");
+    }
+    // navigate("/account");
+
+
+
+4. react-vite -> Full Code -> src\components\Login.jsx -> const Login = () => { ->
+	// Login
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  async function loginUser() {
+    let item = { email, password };
+    // console.warn(item);
+
+    let result = await fetch("http://127.0.0.1:8000/api/login-user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(item),
+    });
+    result = await result.json();
+    // console.warn("result", result);
+    // alert(result["email"]);
+    if (result["email"] == "Email is Required") {
+      alert(result["email"]);
+    } else if (result["email"] == "Enter a valid email") {
+      alert(result["email"]);
+    } else if (result["email"] == "Email does not exists") {
+      alert(result["email"]);
+    } else if (result["message"] == "Email is incorrect!") {
+      alert(result["message"]);
+    } else if (result["password"] == "Password is Required") {
+      alert(result["password"]);
+    } else if (result["message"] == "Password is incorrect!") {
+      alert(result["message"]);
+    } else {
+      navigate("/account");
+    }
+    // navigate("/account");
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
