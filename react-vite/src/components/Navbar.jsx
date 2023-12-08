@@ -1,6 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const user = JSON.stringify(localStorage.getItem("user"));
+  const navigate = useNavigate();
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
@@ -40,16 +42,34 @@ const Navbar = () => {
                 Contact
               </Link>
             </li>
-            <li className="nav-item">
-              <Link to={"/register"} className="nav-link" href="#">
-                Register
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to={"/login"} className="nav-link" href="#">
-                Login
-              </Link>
-            </li>
+
+            {localStorage.getItem("user") ? (
+              <>
+                <li className="nav-item">
+                  <Link to={"/account"} className="nav-link" href="#">
+                    Account
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to={"/logout"} className="nav-link" href="#">
+                    Logout
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="nav-item">
+                  <Link to={"/register"} className="nav-link" href="#">
+                    Register
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to={"/login"} className="nav-link" href="#">
+                    Login
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
           <form className="d-flex" role="search">
             <input

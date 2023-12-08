@@ -1,7 +1,13 @@
-import React from "react";
-
 const Account = () => {
-  return <div>Welcome User</div>;
+  let user = JSON.parse(localStorage.getItem("user"));
+
+  return (
+    <>
+      {localStorage.getItem("user") ? (
+        <>Welcome {user.userDetails.name}</>
+      ) : null}
+    </>
+  );
 };
 
 export default Account;

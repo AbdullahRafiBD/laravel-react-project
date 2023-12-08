@@ -34,6 +34,7 @@ const Login = () => {
     } else if (result["message"] == "Password is incorrect!") {
       alert(result["message"]);
     } else {
+      localStorage.setItem("user", JSON.stringify(result));
       navigate("/account");
     }
     // navigate("/account");

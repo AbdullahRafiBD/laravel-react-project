@@ -1,0 +1,131 @@
+1. react -> create jsx -> src\components -->
+	Logout.jsx
+
+
+2. eact -> src\App.jsx -> function App() { ->   return ( -> <Routes> -->
+	<Route path="/logout" element={<Logout></Logout>}></Route>
+
+
+
+3. react -> src\components\Navbar.jsx -->
+	<Link to={"/logout"}> Logout </Link>
+	<Link to={"/account"}> Account </Link>
+
+
+
+4. laravel -> add this code -> 'userDetails' => $userDetails, -> ecom9\app\Http\Controllers\API\APIController.php -> public function loginUser(Request $request){ ->  if ($request->isMethod('post')) { -> if ($userCount > 0) { -> if (password_verify($data['password'], $userDetails->password)) { -> return response()->json([ -->
+	if (password_verify($data['password'], $userDetails->password)) {
+                    return response()->json([
+                        'userDetails' => $userDetails,
+                        'status' => true,
+                        'message' => 'User login successfully',
+                    ], 201);
+                }
+
+
+5. react -> add tihs to storage data on session -> localStorage.setItem("user", JSON.stringify(result)); -> src\components\Login.jsx -> const Login = () => { -> if (result["email"] == "Email is Required") { -> else { -->
+	else {
+      localStorage.setItem("user", JSON.stringify(result));
+      navigate("/account");
+    }
+
+
+6. react -> show data on Account page -> src\components\Account.jsx -> const Account = () => { -->
+	let user = JSON.parse(localStorage.getItem("user"));
+
+7. react -> show data on Account page -> src\components\Account.jsx -> const Account = () => { -> return -->
+	<>Welcome {user.userDetails.name}</>;
+
+8. react -> Condition for show logout and Login/Register -> rc\components\Navbar.jsx -> const Navbar = () => { -> return ( -->
+	{localStorage.getItem("user") ? (
+              <>...</>
+	) : (
+	<>...</>
+	)}
+
+9. react -> Condition for show logout and Login/Register full code -> rc\components\Navbar.jsx -> const Navbar = () => { -> return ( -->
+	{localStorage.getItem("user") ? (
+              <>
+                <li className="nav-item">
+                  <Link to={"/account"} className="nav-link" href="#">
+                    Account
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to={"/logout"} className="nav-link" href="#">
+                    Logout
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="nav-item">
+                  <Link to={"/register"} className="nav-link" href="#">
+                    Register
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to={"/login"} className="nav-link" href="#">
+                    Login
+                  </Link>
+                </li>
+              </>
+            )}
+
+
+10. react -> src\components\Logout.jsx -> const Logout = () => { -->
+	const navigate = useNavigate();
+
+  function logout() {
+    localStorage.clear();
+    navigate("/login");
+  }
+
+  useEffect(() => {
+    logout();
+  }, []);
+
+
+11. react -> src\components\Navbar.jsx -> const Navbar = () => { -->
+	const user = JSON.stringify(localStorage.getItem("user"));
+  	const navigate = useNavigate();
+
+
+12. react -> src\components\Account.jsx ->  const Account = () => { -->
+	let user = JSON.parse(localStorage.getItem("user"));
+
+13. react -> src\components\Account.jsx ->  const Account = () => { -> return ( -->
+	<>
+      {localStorage.getItem("user") ? (
+        <>Welcome {user.userDetails.name}</>
+      ) : null}
+    </>
+
+14. react -> src\components\Account.jsx -> full Code -->
+	const Account = () => {
+  let user = JSON.parse(localStorage.getItem("user"));
+
+  return (
+    <>
+      {localStorage.getItem("user") ? (
+        <>Welcome {user.userDetails.name}</>
+      ) : null}
+    </>
+  );
+};
+
+export default Account;
+
+
+
+
+
+
+
+
+
+
+
+
+
+

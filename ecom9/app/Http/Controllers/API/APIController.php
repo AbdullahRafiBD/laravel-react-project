@@ -83,6 +83,7 @@ class APIController extends Controller
                 // Verify the password
                 if (password_verify($data['password'], $userDetails->password)) {
                     return response()->json([
+                        'userDetails' => $userDetails,
                         'status' => true,
                         'message' => 'User login successfully',
                     ], 201);
