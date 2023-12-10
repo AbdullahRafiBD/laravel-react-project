@@ -1,0 +1,131 @@
+1. laravel -> routes\api.php -> Route::namespace('App\Http\Controllers\API')->group(function () { -->
+	// Update Profile Details / Profile API
+    Route::post('update-user', 'APIController@updateUser');
+
+
+2. laravel -> ecom9\app\Http\Controllers\API\APIController.php -->
+	public function updateUser(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->input();
+            echo '<pre>';
+            print_r($data);
+            die;
+        }
+    }
+
+
+3. Thunder Client API Test -> 
+	POST -> 
+	http://127.0.0.1:8000/api/update-user ->
+	Body ->
+	JSON ->
+
+	{
+  	"id":24,
+  	"name":"amit@amit.com",
+  	"address":"90/2",
+  	"city":"Dhaka",
+  	"state":"USA",
+  	"email":"amit@amit.com",
+  	"password":"123456"
+	}
+
+	--> Send Button Click
+
+
+4. laravel -> Full code ->ecom9\app\Http\Controllers\API\APIController.php -> public function updateUser(Request $request){ -->
+	public function updateUser(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->input();
+            // echo '<pre>';
+            // print_r($data);
+            // die;
+
+
+            // Validation
+            $rules = [
+                'name' => "required",
+            ];
+            $customMessages = [
+                'name.required' => "Name is Required",
+
+            ];
+            $validator = Validator::make($data, $rules, $customMessages);
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 422);
+            }
+
+
+            // Verify User id Details
+            $userCount = User::where('id', $data['id'])->count();
+            if ($userCount > 0) {
+
+                // Update User Details
+                User::where('id', $data['id'])->update(
+                    [
+                        'name' => $data['name'],
+                        'address' => $data['address'],
+                        'city' => $data['city'],
+                        'state' => $data['state'],
+                        'country' => $data['country'],
+                        'pincode' => $data['pincode'],
+                        'mobile' => $data['mobile'],
+                        'email' => $data['email'],
+                    ]
+                );
+
+                // Fetch User Details
+                $userDetails = User::where('id', $data['id'])->first();
+
+                // Verify the password
+
+                return response()->json([
+                    'userDetails' => $userDetails,
+                    'status' => true,
+                    'message' => 'User Updated successfully',
+                ], 201);
+            } else {
+                $massage = 'User does not exists!';
+                return response()->json([
+                    'status' => false,
+                    'message' => $massage,
+                ], 422);
+            }
+        }
+    }
+
+
+5. Thunder Client API Test -> 
+	POST -> 
+	http://127.0.0.1:8000/api/update-user ->
+	Body ->
+	JSON ->
+
+	{
+  	"id":23,
+  	"name":"asemm",
+  	"address":"90/2",
+  	"city":"Dhaka",
+  	"state":"Mogbazar",
+  	"country":"Bangladeh",
+  	"pincode":"1217",
+  	"mobile":"01398587895",
+  	"email":"asem@asem.com"
+	}
+
+	--> Send Button Click
+
+
+
+
+
+
+
+
+
+
+
+
+

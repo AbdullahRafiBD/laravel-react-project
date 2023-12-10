@@ -24,4 +24,7 @@ Route::namespace('App\Http\Controllers\API')->group(function () {
     Route::post('register-user', 'APIController@registerUser');
     // Login user Router for React App
     Route::post('login-user', 'APIController@loginUser');
+
+    // Update Profile Details / Profile API
+    Route::post('update-user', 'APIController@updateUser');
 });

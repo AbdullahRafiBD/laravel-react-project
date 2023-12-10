@@ -103,4 +103,65 @@ class APIController extends Controller
             }
         }
     }
+
+    public function updateUser(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->input();
+            // echo '<pre>';
+            // print_r($data);
+            // die;
+
+
+            // Validation
+            $rules = [
+                'name' => "required",
+            ];
+            $customMessages = [
+                'name.required' => "Name is Required",
+
+            ];
+            $validator = Validator::make($data, $rules, $customMessages);
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 422);
+            }
+
+
+            // Verify User id Details
+            $userCount = User::where('id', $data['id'])->count();
+            if ($userCount > 0) {
+
+                // Update User Details
+                User::where('id', $data['id'])->update(
+                    [
+                        'name' => $data['name'],
+                        'address' => $data['address'],
+                        'city' => $data['city'],
+                        'state' => $data['state'],
+                        'country' => $data['country'],
+                        'pincode' => $data['pincode'],
+                        'mobile' => $data['mobile'],
+                        'email' => $data['email'],
+                    ]
+                );
+
+                // Fetch User Details
+                $userDetails = User::where('id', $data['id'])->first();
+
+                // Verify the password
+
+                return response()->json([
+                    'userDetails' => $userDetails,
+                    'status' => true,
+                    'message' => 'User Updated successfully',
+                ], 201);
+            } else {
+                $massage = 'User does not exists!';
+                return response()->json([
+                    'status' => false,
+                    'message' => $massage,
+                ], 422);
+            }
+        }
+    }
 }
