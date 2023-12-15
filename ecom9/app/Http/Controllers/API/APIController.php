@@ -131,6 +131,20 @@ class APIController extends Controller
             $userCount = User::where('id', $data['id'])->count();
             if ($userCount > 0) {
 
+                if (empty($data['city'])) {
+                    $data['city'] = "";
+                }
+                if (empty($data['state'])) {
+                    $data['state'] = "";
+                }
+                if (empty($data['country'])) {
+                    $data['country'] = "";
+                }
+                if (empty($data['pincode'])) {
+                    $data['pincode'] = "";
+                }
+
+
                 // Update User Details
                 User::where('id', $data['id'])->update(
                     [
@@ -140,8 +154,7 @@ class APIController extends Controller
                         'state' => $data['state'],
                         'country' => $data['country'],
                         'pincode' => $data['pincode'],
-                        'mobile' => $data['mobile'],
-                        'email' => $data['email'],
+
                     ]
                 );
 
