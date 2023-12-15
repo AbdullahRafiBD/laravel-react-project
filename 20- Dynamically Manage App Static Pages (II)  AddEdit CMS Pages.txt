@@ -1,0 +1,91 @@
+1. laravel -> routes\web.php -> Route::group(['middleware' => ['admin']], function () { -->
+	// CMS Page add edit (? meaning id astew pare naw pare )
+        Route::match(['get', 'post'], 'add-edit-cms-page/{id?}', 'CmsController@addEditCmsPage');
+
+
+2. laravel -> app\Http\Controllers\admin\CmsController.php -->
+	public function addEditCmsPage(Request $request, $id = null)
+    {
+	Session::put('page', 'cmspages');
+        if ($id == '') {
+            $title = 'Add Page';
+            $cmspage = new CmsPage;
+            $message = 'Page Added Successfully!';
+        } else {
+            $title = 'Edit Page';
+            $cmspage = CmsPage::find($id);
+            // dd($cmspage);
+            // echo '<pre>'; print_r($cmspage['page_name']);die;
+            $message = 'Page updated Successfully!';
+        }
+
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+            // echo '<pre>'; print_r($data);die;
+            // echo '<pre>'; print_r(Auth::guard('admin')->user());die;
+
+            // validation
+            $rules = [
+                'title' => 'required',
+                'url' => 'required',
+                'description' => 'required',
+            ];
+            $this->validate($request, $rules);
+
+
+
+
+            // Save CMS Page details in Cms Page Table
+            $cmspage->title = $data['title'];
+            $cmspage->description = $data['description'];
+            $cmspage->url = $data['url'];
+            $cmspage->meta_title = $data['meta_title'];
+            $cmspage->meta_description = $data['meta_description'];
+            $cmspage->status = 1;
+            $cmspage->save();
+
+            return redirect('admin/cms-pages')->with('success_message', $message);
+        }
+
+        return view('admin.pages.add_edit_cmspage')->with(compact('cmspage', 'title', 'message'));
+    }
+
+
+3. laravel -> create new blade file -> ecom9\resources\views\admin\pages -->
+	add_edit_cmspage.blade.php
+
+4. laravel -> copy code from Brand.blade.php -> ecom9\resources\views\admin\pages\add_edit_cmspage.blade.php ->
+	replace --> brand -> cmspage
+	
+
+5. laravel -> add sidebar for Cms Page -> resources\views\admin\layout\sidebar.blade.php -->
+	<li class="nav-item">
+                <a @if (Session::get('page') == 'cmspages') style="background: #4B49AC !important; color: #fff !important;" @endif
+                    class="nav-link" data-toggle="collapse" href="#ui-cmspage" aria-expanded="false"
+                    aria-controls="ui-cmspage">
+                    <i class="icon-layout menu-icon"></i>
+                    <span class="menu-title">Pages Management</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="ui-cmspage">
+                    <ul class="nav flex-column sub-menu"
+                        style="background: #fff !important; color: #4B49AC !important;">
+                        <li class="nav-item"> <a
+                                @if (Session::get('page') == 'cmspages') style="background: #4B49AC !important; color: #fff !important;"
+                        @else style="background: #fff !important; color: #4B49AC !important;" @endif
+                                class="nav-link" href="{{ url('admin/cms-pages') }}">cms page </a></li>
+                    </ul>
+                </div>
+            </li>
+
+
+
+
+
+
+
+
+
+
+
+

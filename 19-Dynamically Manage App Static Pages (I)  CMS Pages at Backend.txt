@@ -81,7 +81,7 @@
 	cms_pages.blade.php
 
 
-14. laravel -> copy code from Brand.blade.php -> ecom9\resources\views\admin\pages ->
+14. laravel -> copy code from Brand.blade.php -> ecom9\resources\views\admin\pages\cms_pages.blade.php ->
 	replace --> brand -> page
 	replace --> brands -> pages
 	

@@ -16,7 +16,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Categories table</h4>
-                            <a href="{{ url('admin/add-edit-page') }}" class="btn btn-primary mr-2">Add Cms Page</a>
+                            <a href="{{ url('admin/add-edit-cms-page') }}" class="btn btn-primary mr-2">Add Cms Page</a>
                             {{-- <p class="card-description">
                                 Add class <code>.table-bordered</code>
                             </p> --}}
@@ -66,7 +66,7 @@
                                                 </td>
                                                 <td>
 
-                                                    <a href="{{ url('admin/add-edit-page/' . $page['id']) }}">
+                                                    <a href="{{ url('admin/add-edit-cms-page/' . $page['id']) }}">
                                                         <i style="font-size: 25px" class="mdi mdi-pencil-box"></i>
                                                     </a>
                                                     {{-- <a title="Category" class="confirmDelete" href="{{url('admin/delete-category/'.$category['id'])}}">

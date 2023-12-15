@@ -150,6 +150,8 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::post('update-cms-page-status', 'CmsController@updatePageStatus');
         //Delete Page
         Route::get('delete-page/{id}', 'CmsController@deletePage');
+        // CMS Page add edit (? meaning id astew pare naw pare )
+        Route::match(['get', 'post'], 'add-edit-cms-page/{id?}', 'CmsController@addEditCmsPage');
     });
 });
 
