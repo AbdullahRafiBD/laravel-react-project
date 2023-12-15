@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     // Call Data Table
     $("#sections").DataTable();
     $("#categories").DataTable();
@@ -6,6 +6,7 @@ $(document).ready(function() {
     $("#products").DataTable();
     $("#banners").DataTable();
     $("#filters").DataTable();
+    $("#pages").DataTable();
 
     //sidebar Active
     $(".nav-item").removeClass("active");
@@ -359,6 +360,41 @@ $(document).ready(function() {
             },
         });
     });
+
+
+    // Update Page Status
+    $(document).on("click", ".updatePageStatus", function () {
+        // alert('TEST')
+        var status = $(this).children("i").attr("status");
+        // alert(status)
+        var page_id = $(this).attr("page_id");
+        // alert(page_id);
+        $.ajax({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            type: "post",
+            url: "/admin/update-cms-page-status",
+            data: { status: status, page_id: page_id },
+            success: function (resp) {
+                // alert(resp);
+                if (resp["status"] == 0) {
+                    $("#page-" + page_id).html(
+                        "<i style='font-size: 25px' class='mdi mdi-bookmark-outline' status='Inactive'></i>"
+                    );
+                } else if (resp["status"] == 1) {
+                    $("#page-" + page_id).html(
+                        "<i style='font-size: 25px' class='mdi mdi-bookmark-check' status='Active'></i>"
+                    );
+                }
+            },
+            error: function () {
+                alert("Error");
+            },
+        });
+    });
+
+
 
     // //confirm delete simple
     // $(".confirmDelete").click(function(){

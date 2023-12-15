@@ -29,53 +29,53 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
-Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function(){
+Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function () {
     // Login Route
-    Route::match(['get','post'],'login','AdminController@login');
+    Route::match(['get', 'post'], 'login', 'AdminController@login');
 
-    Route::group(['middleware'=>['admin']],function(){
-            // Admin Dashboard Route
-        Route::get('dashboard','AdminController@dashboard');
+    Route::group(['middleware' => ['admin']], function () {
+        // Admin Dashboard Route
+        Route::get('dashboard', 'AdminController@dashboard');
         // Admin Logout
-        Route::get('logout','AdminController@logout');
+        Route::get('logout', 'AdminController@logout');
         // Update Admin Password
-        Route::match(['get','post'],'update-admin-password','AdminController@updateAdminPassword');
+        Route::match(['get', 'post'], 'update-admin-password', 'AdminController@updateAdminPassword');
         // check Admin Password
-        Route::post('check-current-password','AdminController@checkAdminPassword');
+        Route::post('check-current-password', 'AdminController@checkAdminPassword');
         // update Admin Details
-        Route::match(['get','post'],'update-admin-details','AdminController@updateAdminDetails');
+        Route::match(['get', 'post'], 'update-admin-details', 'AdminController@updateAdminDetails');
         // update Vendor Details
-        Route::match(['get','post'],'update-vendor-details/{slug}','AdminController@updateVendorDetails');
+        Route::match(['get', 'post'], 'update-vendor-details/{slug}', 'AdminController@updateVendorDetails');
         // view Admins / Subadmins / Vendors
-        Route::get('admins/{type?}','AdminController@admins');
+        Route::get('admins/{type?}', 'AdminController@admins');
         // View Vendor Details
-        Route::get('view-vendor-details/{id}','AdminController@viewVendorDetails');
+        Route::get('view-vendor-details/{id}', 'AdminController@viewVendorDetails');
         // Update Admin Status
-        Route::post('update-admin-status','AdminController@updateAdminStatus');
+        Route::post('update-admin-status', 'AdminController@updateAdminStatus');
 
         // Sections start here
-        Route::get('sections','SectionController@sections');
+        Route::get('sections', 'SectionController@sections');
         // Update Sections Status
-        Route::post('update-section-status','SectionController@updateSectionStatus');
+        Route::post('update-section-status', 'SectionController@updateSectionStatus');
         //Delete Section
-        Route::get('delete-section/{id}','SectionController@deleteSection');
+        Route::get('delete-section/{id}', 'SectionController@deleteSection');
         // section add edit (? meaning id astew pare naw pare )
-        Route::match(['get','post'],'add-edit-section/{id?}','SectionController@addEditSection');
+        Route::match(['get', 'post'], 'add-edit-section/{id?}', 'SectionController@addEditSection');
 
         // Categories start here
-        Route::get('categories','CategoryController@categories');
+        Route::get('categories', 'CategoryController@categories');
         // Update Categories Status
-        Route::post('update-category-status','CategoryController@updateCategoryStatus');
+        Route::post('update-category-status', 'CategoryController@updateCategoryStatus');
         // Category add edit (? meaning id astew pare naw pare )
-        Route::match(['get','post'],'add-edit-category/{id?}','CategoryController@addEditCategory');
+        Route::match(['get', 'post'], 'add-edit-category/{id?}', 'CategoryController@addEditCategory');
         // subCategory ajax
-        Route::get('append-categories-level','CategoryController@appendCategoryLevel');
+        Route::get('append-categories-level', 'CategoryController@appendCategoryLevel');
         //Delete Category
-        Route::get('delete-category/{id}','CategoryController@deleteCategory');
+        Route::get('delete-category/{id}', 'CategoryController@deleteCategory');
         //Delete Category Image
-        Route::get('delete-category-image/{id}','CategoryController@deleteCategoryImage');
+        Route::get('delete-category-image/{id}', 'CategoryController@deleteCategoryImage');
 
         // Brands start here
         Route::get('brands', 'BrandController@brands');
@@ -142,20 +142,26 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('delete-banner/{id}', 'BannersController@deleteBanner');
         // Banner add edit (? meaning id astew pare naw pare )
         Route::match(['get', 'post'], 'add-edit-banner/{id?}', 'BannersController@addEditBanner');
+
+
+        // CMS Pages
+        Route::get('cms-pages', 'CmsController@cmspages');
+        // Update CMS Pages Status
+        Route::post('update-cms-page-status', 'CmsController@updatePageStatus');
+        //Delete Page
+        Route::get('delete-page/{id}', 'CmsController@deletePage');
     });
-
-
 });
 
-Route::namespace('App\Http\Controllers\Front')->group(function(){
+Route::namespace('App\Http\Controllers\Front')->group(function () {
     Route::get('/', 'IndexController@index');
     // Route::match(['get', 'post'], '/', 'IndexController@index');
 
     // Listing Category Route
-    $catUrls = Category::select('url')->where('status',1)->get()->pluck('url')->toArray();
+    $catUrls = Category::select('url')->where('status', 1)->get()->pluck('url')->toArray();
     // dd($catUrls);die;
     foreach ($catUrls as $key => $url) {
-        Route::match(['get', 'post'], '/'. $url, 'ProductsController@listing');
+        Route::match(['get', 'post'], '/' . $url, 'ProductsController@listing');
     }
 
 
@@ -198,10 +204,4 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
     Route::get('user/logout', 'UserController@userLogout');
     // Confirm User Account
     Route::get('user/confirm/{code}', 'UserController@confirmAccount');
-
-
 });
-
-
-
-

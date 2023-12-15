@@ -1,0 +1,179 @@
+1. laravel -> Command -> create migration -->
+	php artisan make:migration create_cms_pages_table
+
+
+2. laravel -> database\migration\2023_12_15_174441_create_cms_pages_table.php -->
+	 $table->id();
+            $table->string('title');
+            $table->text('description');
+            $table->string('url');
+            $table->string('meta_title');
+            $table->string('meta_description');
+            $table->tinyInteger('status');
+            $table->timestamps();
+
+
+3. laravel -> Command -> Add table on database -->
+	php artisan migrate
+
+4. laravel -> Command -> Create Model -->
+	php artisan make:model CmsPage
+
+
+5. laravel -> Command -> Create seeder -->
+	php artisan make:seeder CmsPagesTableSeeder
+
+
+6. laravel -> database\seeders\CmsPagesTableSeeder.php -> public function run(){ -->
+	$cmsPagesRecords = [
+            [
+                'id' => 1,
+                'title' => 'About Us',
+                'description' => 'About Us Content is coming soon!',
+                'url' => 'about-us',
+                'meta_title' => 'About Us',
+                'meta_description' => 'Desc',
+                'status' => 1,
+            ],
+
+            [
+                'id' => 2,
+                'title' => 'Privacy Policy',
+                'description' => 'Privacy Policy Content is coming soon!',
+                'url' => 'privacy-policy',
+                'meta_title' => 'Privacy Policy',
+                'meta_description' => 'Desc',
+                'status' => 1,
+            ],
+
+        ];
+        CmsPage::insert($cmsPagesRecords);
+
+
+7.  laravel -> database\seeders\DatabaseSeeder.php -> public function run(){ -->
+	$this->call(CmsPagesTableSeeder::class);
+
+
+8. laravel -> Command -> Seed CmsPagesTableSeeder  -->
+	php artisan DB:seed
+
+
+9. laravel -> Command -> create cms Controller -->
+	php artisan make:controller Admin/CmsController
+
+10. laravel -> routes\web.php -> Route::group(['middleware' => ['admin']], function () { -->
+	// CMS Pages
+        Route::get('cms-pages', 'CmsController@cmspages');
+
+
+11. laravel -> app\Http\Controllers\admin\CmsController.php -->
+	public function cmspages()
+    {
+        Session::put('page', 'cmspages');
+        $cms_pages = CmsPage::get()->toArray();
+        return view('admin.pages.cms_pages')->with(compact('cms_pages'));
+    }
+
+12. laravel -> create new folder -> ecom9\resources\views\admin -->
+	pages
+
+13. laravel -> create new blade file -> ecom9\resources\views\admin\pages -->
+	cms_pages.blade.php
+
+
+14. laravel -> copy code from Brand.blade.php -> ecom9\resources\views\admin\pages ->
+	replace --> brand -> page
+	replace --> brands -> pages
+	
+15. laravel -> public\admin\js\custom.js -> $(document).ready(function () { -->
+	$("#pages").DataTable();
+
+
+	--------------Status update ------------------
+	
+16. laravel -> routes\web.php -> Route::group(['middleware' => ['admin']], function () { -->
+	// Update CMS Pages Status
+        Route::post('update-cms-page-status', 'CmsController@updatePageStatus');
+
+17. laravel -> app\Http\Controllers\admin\CmsController.php -->
+	public function updatePageStatus(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = $request->all();
+            // echo '<pre>';
+            // print_r($data);
+            // die;
+            if ($data['status'] == 'Active') {
+                $status = 0;
+            } else {
+                $status = 1;
+            }
+            CmsPage::where('id', $data['page_id'])->update(['status' => $status]);
+            return response()->json(['status' => $status, 'page_id' => $data['page_id']]);
+        }
+    }
+
+
+18. laravel -> public\admin\js\custom.js -> $(document).ready(function () { --> 
+	// Update Page Status
+    $(document).on("click", ".updatePageStatus", function () {
+        // alert('TEST')
+        var status = $(this).children("i").attr("status");
+        // alert(status)
+        var page_id = $(this).attr("page_id");
+        // alert(page_id);
+        $.ajax({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            type: "post",
+            url: "/admin/update-cms-page-status",
+            data: { status: status, page_id: page_id },
+            success: function (resp) {
+                // alert(resp);
+                if (resp["status"] == 0) {
+                    $("#page-" + page_id).html(
+                        "<i style='font-size: 25px' class='mdi mdi-bookmark-outline' status='Inactive'></i>"
+                    );
+                } else if (resp["status"] == 1) {
+                    $("#page-" + page_id).html(
+                        "<i style='font-size: 25px' class='mdi mdi-bookmark-check' status='Active'></i>"
+                    );
+                }
+            },
+            error: function () {
+                alert("Error");
+            },
+        });
+    });
+
+
+	--------------Delete Page------------------
+
+19. laravel -> routes\web.php -> Route::group(['middleware' => ['admin']], function () { -->
+	//Delete Page
+        Route::get('delete-page/{id}', 'CmsController@deletePage');
+
+20. laravel -> app\Http\Controllers\admin\CmsController.php -->
+	public function deletePage($id)
+    {
+        //delete page
+        CmsPage::where('id', $id)->delete();
+        $message = 'Page has been deleted Successfully';
+        return redirect()->back()->with('success_message', $message);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
