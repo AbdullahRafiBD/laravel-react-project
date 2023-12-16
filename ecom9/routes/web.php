@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Category;
+use App\Models\CmsPage;
 
 /*
 |--------------------------------------------------------------------------
@@ -166,6 +167,12 @@ Route::namespace('App\Http\Controllers\Front')->group(function () {
         Route::match(['get', 'post'], '/' . $url, 'ProductsController@listing');
     }
 
+
+    // CMS pages Route
+    $cmsUrls = CmsPage::select('url')->where('status', 1)->get()->pluck('url')->toArray();
+    foreach ($cmsUrls as $url) {
+        Route::get($url, 'CmsController@cmsPage');
+    }
 
 
     // Vendor Login/Register
