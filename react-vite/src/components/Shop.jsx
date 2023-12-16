@@ -23,7 +23,7 @@ const Shop = () => {
             <h2>{menuObj.name}</h2>
             {menuObj.categories.map((catObj) => {
               return (
-                <Link to={catObj.url}>
+                <Link to={"/listing?url=" + catObj.url}>
                   <h4>{catObj.category_name}</h4>
                 </Link>
               );

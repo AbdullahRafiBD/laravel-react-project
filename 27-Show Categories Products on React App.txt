@@ -1,0 +1,66 @@
+1. react -> Update URL -> (to={"/listing?url=" + catObj.url) -> src\components\Shop.jsx -> const Shop = () => { -> return ( -> return ( -->
+	<Link to={"/listing?url=" + catObj.url}>
+
+
+2. react -> create new jsx file -> src\components -->
+	Listing.jsx
+
+
+3. react -> src\components\Listing.jsx -> const Listing = () => { -->
+	const [products, setProducts] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const fetchData = () => {
+    return axios
+      .get("http://127.0.0.1:8000/api/listing/" + searchParams.get("url"))
+      .then((response) => setProducts(response.data["products"]));
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+
+
+4. react -> src\components\Listing.jsx -> const Listing = () => { -> return ( -->
+	div align="center">
+      {products.map((productObj) => {
+        return (
+          <div key={productObj.id}>
+            <h3>{productObj.product_name}</h3>
+            <img src={productObj.product_image} />
+            <h3>Price:{productObj.product_price}</h3>
+            <hr />
+          </div>
+        );
+      })}
+    </div>
+
+
+5. react -> create Listing Route -> src\App.jsx -->
+	<Route path="/listing" element={<Listing></Listing>}></Route>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
