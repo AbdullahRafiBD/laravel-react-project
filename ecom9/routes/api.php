@@ -34,4 +34,7 @@ Route::namespace('App\Http\Controllers\API')->group(function () {
     foreach ($cmsUrls as $url) {
         Route::get($url, 'APIController@cmsPage');
     }
+
+    //Categories menu API
+    Route::get('menu', 'APIController@menu');
 });

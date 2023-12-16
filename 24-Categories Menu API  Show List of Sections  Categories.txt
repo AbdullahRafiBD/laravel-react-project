@@ -1,0 +1,22 @@
+1. laravel -> routes\api.php -> Route::namespace('App\Http\Controllers\API')->group(function () { -->
+	//Categories menu API
+    Route::get('menu', 'APIController@menu');
+
+
+2. laravel -> app\Http\Controllers\API\APIController.php -->
+	public function menu()
+    {
+        $categories = Section::with('categories')->get();
+        return response()->json([
+            'categories' => $categories,
+            'status' => true,
+            'message' => 'Page Details Fetched Sucessfully!',
+        ], 200);
+    }
+
+
+3. laravel -> Thunder Client API Test -> 
+	GET -> 
+	http://127.0.0.1:8000/api/menu ->
+
+	--> Send Button Click

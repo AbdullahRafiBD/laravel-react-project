@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\CmsPage;
+use App\Models\Section;
 use App\Models\User;
 // use Validator;
 // use Illuminate\Validation\Validator;
@@ -202,5 +203,16 @@ class APIController extends Controller
                 'message' => $massage,
             ], 422);
         }
+    }
+
+
+    public function menu()
+    {
+        $categories = Section::with('categories')->get();
+        return response()->json([
+            'categories' => $categories,
+            'status' => true,
+            'message' => 'Page Details Fetched Sucessfully!',
+        ], 200);
     }
 }
