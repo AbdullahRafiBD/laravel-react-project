@@ -1,15 +1,5 @@
-// const about = () => {
-//   return <div>about</div>;
-// };
-
-import axios from "axios";
-import { useEffect } from "react";
-import { useState } from "react";
-
-// const About = () => <div>about page</div>;
-
-function About() {
-  const [page, setPage] = useState([]);
+1. react -> src\components\About.jsx -> function About() { -->
+	const [page, setPage] = useState([]);
 
   const fetchData = () => {
     return axios
@@ -20,10 +10,10 @@ function About() {
   useEffect(() => {
     fetchData();
   }, []);
+	
 
-  return (
-    <div>
-      {page.map((pageObj) => {
+2. react -> src\components\About.jsx -> function About() { -> return ( -->
+	{page.map((pageObj) => {
         return (
           <div>
             <h1>{pageObj.title}</h1>
@@ -31,8 +21,30 @@ function About() {
           </div>
         );
       })}
-    </div>
-  );
-}
 
-export default About;
+
+
+3. react -> src\App.jsx -->
+	<Route path="/about" element={<About></About>}></Route>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
