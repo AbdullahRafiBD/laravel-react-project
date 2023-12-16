@@ -37,4 +37,7 @@ Route::namespace('App\Http\Controllers\API')->group(function () {
 
     //Categories menu API
     Route::get('menu', 'APIController@menu');
+
+    // Listing Products API
+    Route::get('listing/{url}', 'APIController@listing');
 });
