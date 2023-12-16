@@ -40,4 +40,7 @@ Route::namespace('App\Http\Controllers\API')->group(function () {
 
     // Listing Products API
     Route::get('listing/{url}', 'APIController@listing');
+
+    // Detail Product API
+    Route::get('detail/{productid}', 'APIController@detail');
 });

@@ -311,10 +311,42 @@ class APIController extends Controller
                 'message' => 'Product Fetched Sucessfully!',
             ], 200);
         } else {
-            $massage = 'Category URL is Incorrect!';
+            $message = 'Category URL is Incorrect!';
             return response()->json([
                 'status' => false,
-                'message' => $massage,
+                'message' => $message,
+            ], 422);
+        }
+    }
+
+    public function detail($id)
+    {
+        $productCount = Product::where(['id' => $id, 'status' => 1])->count();
+        if ($productCount > 0) {
+            $productDetails = Product::with(['section', 'category', 'brand', 'attributes' => function ($query) {
+                $query->where('stock', '>', 0)->where('status', 1);
+            }, 'images', 'vendor'])->where('id', $id)->get();
+
+            foreach ($productDetails as $key => $value) {
+                $getDiscountPrice = Product::getDiscountPrice($productDetails[$key]['id']);
+                if ($getDiscountPrice > 0) {
+                    $productDetails[$key]['final_price'] = 'TAKA ' . $getDiscountPrice;
+                } else {
+                    $productDetails[$key]['final_price'] = 'TAKA ' . $productDetails[$key]['product_price'];
+                }
+                $productDetails[$key]['product_image'] = url("/front/images/product_images/small/" . $productDetails[$key]['product_image']);
+            }
+
+            return response()->json([
+                'products' => $productDetails,
+                'status' => true,
+                'message' => 'Product Fetched Sucessfully!',
+            ], 200);
+        } else {
+            $message = 'Product Is Not Available!';
+            return response()->json([
+                'status' => false,
+                'message' => $message,
             ], 422);
         }
     }
