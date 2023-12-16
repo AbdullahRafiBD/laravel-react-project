@@ -1,0 +1,66 @@
+1. react -> create new jsx file -> src\components -->
+	Shop.jsx
+
+
+2. react -> create Shop Route -> src\App.jsx -->
+	<Route path="/shop" element={<Shop></Shop>}></Route>
+
+
+3. react -> add shop link on navbar ->  src\components\Navbar.jsx -->
+	<li className="nav-item">
+              <Link to={"/shop"} className="nav-link" href="#">
+                Shop
+              </Link>
+            </li>
+
+
+4. react -> src\components\Shop.jsx -> const Shop = () => { -->
+	const [menu, setMenu] = useState([]);
+
+  const fetchData = () => {
+    return axios
+      .get("http://127.0.0.1:8000/api/menu")
+      .then((response) => setMenu(response.data["categories"]));
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+
+
+5. react -> src\components\Shop.jsx -> const Shop = () => { -> return ( -->
+	<div>
+      {menu.map((menuObj) => {
+        return (
+          <div>
+            <h2>{menuObj.name}</h2>
+            {menuObj.categories.map((catObj) => {
+              return (
+                <Link to={catObj.url}>
+                  <h4>{catObj.category_name}</h4>
+                </Link>
+              );
+            })}
+          </div>
+        );
+      })}
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

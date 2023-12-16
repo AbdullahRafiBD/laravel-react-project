@@ -42,6 +42,11 @@ const Navbar = () => {
                 Contact
               </Link>
             </li>
+            <li className="nav-item">
+              <Link to={"/shop"} className="nav-link" href="#">
+                Shop
+              </Link>
+            </li>
 
             {localStorage.getItem("user") ? (
               <>

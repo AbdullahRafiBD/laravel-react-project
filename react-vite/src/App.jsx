@@ -11,6 +11,7 @@ import Thanks from "./components/Thanks";
 import Login from "./components/Login";
 import Account from "./components/Account";
 import Logout from "./components/Logout";
+import Shop from "./components/Shop";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/thanks" element={<Thanks></Thanks>}></Route>
         <Route path="/account" element={<Account></Account>}></Route>
         <Route path="/about" element={<About></About>}></Route>
+        <Route path="/shop" element={<Shop></Shop>}></Route>
       </Routes>
     </>
   );
