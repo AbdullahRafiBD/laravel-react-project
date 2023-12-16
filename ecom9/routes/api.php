@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\CmsPage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,4 +28,10 @@ Route::namespace('App\Http\Controllers\API')->group(function () {
 
     // Update Profile Details / Profile API
     Route::post('update-user', 'APIController@updateUser');
+
+    // CMS pages Route
+    $cmsUrls = CmsPage::select('url')->where('status', 1)->get()->pluck('url')->toArray();
+    foreach ($cmsUrls as $url) {
+        Route::get($url, 'APIController@cmsPage');
+    }
 });

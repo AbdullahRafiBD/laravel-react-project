@@ -1,0 +1,56 @@
+1. laravel -> routes\api.php -> Route::namespace('App\Http\Controllers\API')->group(function () { -->
+	// CMS pages Route
+    $cmsUrls = CmsPage::select('url')->where('status', 1)->get()->pluck('url')->toArray();
+    foreach ($cmsUrls as $url) {
+        Route::get($url, 'APIController@cmsPage');
+    }
+
+
+2. laravel -> app\Http\Controllers\API\APIController.php -->
+	public function cmsPage()
+    {
+        $currentRoute = url()->current();
+        $currentRoute = str_replace("http://127.0.0.1:8000/api/", "", $currentRoute);
+        // echo $currentRoute;
+        // die;
+        $cmsRoutes = CmsPage::select('url')->where('status', 1)->get()->pluck('url')->toArray();
+        if (in_array($currentRoute, $cmsRoutes)) {
+            // echo 'page will Come';
+            $cmsPageDetails = CmsPage::where('url', $currentRoute)->get();
+            return response()->json([
+                'cmsPageDetails' => $cmsPageDetails,
+                'status' => true,
+                'message' => 'Page Details Fetched Sucessfully!',
+            ], 200);
+        } else {
+            $massage = 'Page does not exists!';
+            return response()->json([
+                'status' => false,
+                'message' => $massage,
+            ], 422);
+        }
+    }
+
+
+3. laravel -> Thunder Client API Test -> 
+	GET -> 
+	http://127.0.0.1:8000/api/about-us ->
+
+	--> Send Button Click
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

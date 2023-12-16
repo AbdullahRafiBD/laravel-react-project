@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\CmsPage;
 use App\Models\User;
 // use Validator;
 // use Illuminate\Validation\Validator;
@@ -175,6 +176,31 @@ class APIController extends Controller
                     'message' => $massage,
                 ], 422);
             }
+        }
+    }
+
+
+    public function cmsPage()
+    {
+        $currentRoute = url()->current();
+        $currentRoute = str_replace("http://127.0.0.1:8000/api/", "", $currentRoute);
+        // echo $currentRoute;
+        // die;
+        $cmsRoutes = CmsPage::select('url')->where('status', 1)->get()->pluck('url')->toArray();
+        if (in_array($currentRoute, $cmsRoutes)) {
+            // echo 'page will Come';
+            $cmsPageDetails = CmsPage::where('url', $currentRoute)->get();
+            return response()->json([
+                'cmsPageDetails' => $cmsPageDetails,
+                'status' => true,
+                'message' => 'Page Details Fetched Sucessfully!',
+            ], 200);
+        } else {
+            $massage = 'Page does not exists!';
+            return response()->json([
+                'status' => false,
+                'message' => $massage,
+            ], 422);
         }
     }
 }
