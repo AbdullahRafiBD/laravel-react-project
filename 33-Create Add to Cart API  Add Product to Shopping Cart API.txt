@@ -1,0 +1,83 @@
+1. add a database table column -> http://localhost:8080/phpmyadmin -> ecom9 -> carts ->  Structure -> add 1 (after quality) -> Click (Go) -> 
+	Name: source
+	Type: ENUM
+	Length/Values: 'Website','App'
+	Default: Website
+	-> Click (Save)
+
+
+2. react -> src\components\Detail.jsx ->const Detail = () => { -->
+	let user = JSON.parse(localStorage.getItem("user"));
+  	const [userid, setUserid] = useState(user.userDetails.id);
+
+
+3. react -> src\components\Detail.jsx ->const Detail = () => { -> return ( -> {searchParams.get("size") ? ( -> <form action="javascript:;"> -->
+	<input
+         name="userid"
+         type="hidden"
+         value={userid}
+         onChange={(e) => setUserid(e.target.value)}
+         />
+
+
+4. react -> src\components\Detail.jsx ->const Detail = () => { -> return ( -> {searchParams.get("size") ? ( -> <form action="javascript:;"> -->
+	<button onClick={addtoCart} className="btn btn-primary">Checkout</button>
+
+
+5. react -> src\components\Detail.jsx ->const Detail = () => { -->
+	async function addtoCart() {
+    	alert("test");
+  	}
+
+
+6. laravel -> routes\api.php -> Route::namespace('App\Http\Controllers\API')->group(function () { -->
+	// Add to cart API
+    Route::post('add-to-cart', 'APIController@addtoCart');
+
+7. laravel -> app\Http\Controllers\API\APIController.php -->
+	public function addtoCart(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->input();
+
+            // Save Product In Carts Table
+            $item = new Cart;
+            $item->session_id = 0;
+            $item->user_id = $data['user_id'];
+            $item->product_id = $data['product_id'];
+            $item->size = $data['size'];
+            $item->quantity = 1;
+            $item->source = 'App';
+            $item->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Product Added Sucessfully!',
+            ], 200);
+        }
+    }
+
+8. laravel -> Thunder Client API Test -> 
+	POST -> 
+	http://127.0.0.1:8000/api/add-to-cart ->
+
+	{
+  	"user_id":1,
+  	"product_id":8,
+  	"size":"Large"
+	}
+
+	--> Send Button Click
+
+
+
+
+
+
+
+
+
+
+
+
+

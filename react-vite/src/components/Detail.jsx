@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 const Detail = () => {
+  let user = JSON.parse(localStorage.getItem("user"));
+  const [userid, setUserid] = useState(user.userDetails.id);
+
   const [product, setProduct] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [size, setSize] = useState("");
@@ -14,6 +17,10 @@ const Detail = () => {
       .get("http://127.0.0.1:8000/api/detail/" + searchParams.get("id"))
       .then((response) => setProduct(response.data["product"]));
   };
+
+  async function addtoCart() {
+    alert("test");
+  }
 
   useEffect(() => {
     fetchData();
@@ -45,6 +52,12 @@ const Detail = () => {
                 {searchParams.get("size") ? (
                   <form action="javascript:;">
                     <input
+                      name="userid"
+                      type="hidden"
+                      value={userid}
+                      onChange={(e) => setUserid(e.target.value)}
+                    />
+                    <input
                       name="id"
                       type="hidden"
                       value={productObj.id}
@@ -58,7 +71,9 @@ const Detail = () => {
                     />
 
                     <h5>Selected Sizes: {searchParams.get("size")}</h5>
-                    <button className="btn btn-primary">Checkout</button>
+                    <button onClick={addtoCart} className="btn btn-primary">
+                      Checkout
+                    </button>
                   </form>
                 ) : (
                   <form action="">

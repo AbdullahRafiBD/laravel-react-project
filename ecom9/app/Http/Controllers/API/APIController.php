@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\CmsPage;
 use App\Models\Product;
@@ -348,6 +349,29 @@ class APIController extends Controller
                 'status' => false,
                 'message' => $message,
             ], 422);
+        }
+    }
+
+
+    public function addtoCart(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->input();
+
+            // Save Product In Carts Table
+            $item = new Cart;
+            $item->session_id = 0;
+            $item->user_id = $data['user_id'];
+            $item->product_id = $data['product_id'];
+            $item->size = $data['size'];
+            $item->quantity = 1;
+            $item->source = 'App';
+            $item->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Product Added Sucessfully!',
+            ], 200);
         }
     }
 }

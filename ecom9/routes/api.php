@@ -43,4 +43,7 @@ Route::namespace('App\Http\Controllers\API')->group(function () {
 
     // Detail Product API
     Route::get('detail/{productid}', 'APIController@detail');
+
+    // Add to cart API
+    Route::post('add-to-cart', 'APIController@addtoCart');
 });
