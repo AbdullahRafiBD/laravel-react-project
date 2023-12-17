@@ -1,9 +1,65 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+1. react -> src\components\Detail.jsx ->const Detail = () => { -->
+	const [size, setSize] = useState("");
+  	const [productid, setProductid] = useState("");
+  	const navigate = useNavigate();
 
-const Detail = () => {
-  const [product, setProduct] = useState([]);
+2. react -> src\components\Detail.jsx ->const Detail = () => { -> return ( -->
+	{/* Condition Login or not */}
+            {localStorage.getItem("user") ? (
+              <>
+                {/* Condition to Proceed to Checkout */}
+                {searchParams.get("size") ? (
+                  <form action="javascript:;">
+                    <input
+                      name="id"
+                      type="hidden"
+                      value={productObj.id}
+                      onChange={(e) => setProductid(e.target.value)}
+                    />
+                    <input
+                      name="size"
+                      type="hidden"
+                      value={searchParams.get("size")}
+                      onChange={(e) => setSize(e.target.value)}
+                    />
+
+                    <h5>Selected Sizes: {searchParams.get("size")}</h5>
+                    <button className="btn btn-primary">Checkout</button>
+                  </form>
+                ) : (
+                  <form action="">
+                    <input
+                      name="id"
+                      type="hidden"
+                      value={productObj.id}
+                      onChange={(e) => setProductid(e.target.value)}
+                    />
+
+                    <h5>
+                      Sizes:
+                      <select name="size">
+                        {productObj.attributes.map((valObj) => {
+                          return (
+                            <option key={valObj.size} value={valObj.size}>
+                              {valObj.size}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </h5>
+                    <button className="btn btn-primary">Proceed</button>
+                  </form>
+                )}
+              </>
+            ) : (
+              <Link to={"/login"}>
+                <button className="btn btn-primary">Login to checkout</button>
+              </Link>
+            )}
+
+
+3. react -> Full Code -> src\components\Detail.jsx ->const Detail = () => { -->
+	const [product, setProduct] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [size, setSize] = useState("");
   const [productid, setProductid] = useState("");
@@ -19,7 +75,9 @@ const Detail = () => {
     fetchData();
   }, []);
 
-  return (
+
+4. react -> Full Code -> src\components\Detail.jsx ->const Detail = () => { -> return ( -->
+	return (
     <div align="center">
       {product.map((productObj) => {
         return (
@@ -95,6 +153,9 @@ const Detail = () => {
       })}
     </div>
   );
-};
 
-export default Detail;
+
+
+
+
+
