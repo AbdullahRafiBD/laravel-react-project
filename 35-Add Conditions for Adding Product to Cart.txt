@@ -1,0 +1,82 @@
+1. laravel -> Add Condition to add Cart -> app\Http\Controllers\API\APIController.php -> public function addtoCart(Request $request){ -> if ($request->isMethod('post')) { -->
+	// check product is already exists in the User Cart
+            $countProducts = Cart::where(['product_id' => $data['productid'], 'size' => $data['size'], 'user_id' => $data['userid']])->count();
+            if ($countProducts > 0) {
+                $message = 'Product Already Exists In Cart!';
+                return response()->json([
+                    'status' => false,
+                    'message' => $message,
+                ], 422);
+            }
+
+
+2. laravel -> Add Condition to add Cart (Full Code) -> app\Http\Controllers\API\APIController.php -> public function addtoCart(Request $request){ -> if ($request->isMethod('post')) { -->
+	public function addtoCart(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->input();
+
+            // check product is already exists in the User Cart
+            $countProducts = Cart::where(['product_id' => $data['productid'], 'size' => $data['size'], 'user_id' => $data['userid']])->count();
+            if ($countProducts > 0) {
+                $message = 'Product Already Exists In Cart!';
+                return response()->json([
+                    'status' => false,
+                    'message' => $message,
+                ], 422);
+            }
+
+
+            // Save Product In Carts Table
+            $item = new Cart;
+            $item->session_id = 0;
+            $item->user_id = $data['userid'];
+            $item->product_id = $data['productid'];
+            $item->size = $data['size'];
+            $item->quantity = 1;
+            $item->source = 'App';
+            $item->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Product Added Sucessfully!',
+            ], 200);
+        }
+    }
+
+
+3. react -> src\components\Detail.jsx ->const Detail = () => { -> async function addtoCart() { -->
+	// check product is already exists in the User Cart
+    if (result["message"] == "Product Already Exists In Cart!") {
+      alert(result["message"]);
+    } else if (result["message"] == "Product Added Sucessfully!") {
+      alert(result["message"]);
+      navigate("/cart");
+    }
+
+
+4. react -> create new jsx file -> src\components -->
+	Cart.jsx
+
+
+5. react -> create Cart Route -> src\App.jsx -->
+	<Route path="/cart" element={<Cart></Cart>}></Route>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

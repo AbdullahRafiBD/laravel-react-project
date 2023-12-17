@@ -33,7 +33,15 @@ const Detail = () => {
       body: JSON.stringify(item),
     });
     result = await result.json();
-    console.warn(result);
+    // console.warn(result);
+
+    // check product is already exists in the User Cart
+    if (result["message"] == "Product Already Exists In Cart!") {
+      alert(result["message"]);
+    } else if (result["message"] == "Product Added Sucessfully!") {
+      alert(result["message"]);
+      navigate("/cart");
+    }
   }
 
   useEffect(() => {

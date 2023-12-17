@@ -358,6 +358,17 @@ class APIController extends Controller
         if ($request->isMethod('post')) {
             $data = $request->input();
 
+            // check product is already exists in the User Cart
+            $countProducts = Cart::where(['product_id' => $data['productid'], 'size' => $data['size'], 'user_id' => $data['userid']])->count();
+            if ($countProducts > 0) {
+                $message = 'Product Already Exists In Cart!';
+                return response()->json([
+                    'status' => false,
+                    'message' => $message,
+                ], 422);
+            }
+
+
             // Save Product In Carts Table
             $item = new Cart;
             $item->session_id = 0;
