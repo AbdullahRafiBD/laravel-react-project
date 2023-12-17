@@ -15,6 +15,7 @@ use App\Models\User;
 // use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class APIController extends Controller
 {
@@ -384,5 +385,30 @@ class APIController extends Controller
                 'message' => 'Product Added Sucessfully!',
             ], 200);
         }
+    }
+
+
+    public function cart($userid)
+    {
+        // if user logged in / Pick Auth Id of the user
+        $getCartItems = Cart::with(['product' => function ($query) {
+            $query->select('id', 'category_id', 'product_name', 'product_code', 'product_color', 'product_image', 'product_price');
+        }])->orderby('id', 'Desc')->where('user_id', $userid)->get()->toArray();
+
+
+        foreach ($getCartItems as $key => $item) {
+            $getDiscountPrice = Product::getDiscountPrice($item['id']);
+            if ($getDiscountPrice > 0) {
+                $getCartItems[$key]['product']['final_price'] = 'TAKA ' . $getDiscountPrice;
+            } else {
+                $getCartItems[$key]['product']['final_price'] = 'TAKA ' . $item['product']['product_price'];
+            }
+            $getCartItems[$key]['product']['product_image'] = url("/front/images/product_images/small/" . $item['product']['product_image']);
+        }
+        // dd($getCartItems);
+        return response()->json([
+            'products' => $getCartItems,
+            'status' => true,
+        ], 200);
     }
 }

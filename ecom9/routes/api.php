@@ -46,4 +46,7 @@ Route::namespace('App\Http\Controllers\API')->group(function () {
 
     // Add to cart API
     Route::post('add-to-cart', 'APIController@addtoCart');
+
+    // Shopping Cart API
+    Route::get('cart/{userid}', 'APIController@cart');
 });
