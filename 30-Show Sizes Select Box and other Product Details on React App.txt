@@ -1,23 +1,18 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+1. react -> src\components\Detail.jsx ->const Detail = () => { -> return ( -->
+	Sizes:
+            <select name="size">
+              {productObj.attributes.map((valObj) => {
+                return (
+                  <option key={valObj.size} value={valObj.size}>
+                    {valObj.size}
+                  </option>
+                );
+              })}
+            </select>
 
-const Detail = () => {
-  const [product, setProduct] = useState([]);
-  const [searchParams, setSearchParams] = useSearchParams();
 
-  const fetchData = () => {
-    return axios
-      .get("http://127.0.0.1:8000/api/detail/" + searchParams.get("id"))
-      .then((response) => setProduct(response.data["product"]));
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  return (
-    <div align="center">
+2. react -> Full code -> src\components\Detail.jsx ->const Detail = () => { -> return ( -->
+	<div align="center">
       {product.map((productObj) => {
         return (
           <div key={productObj.id}>
@@ -48,7 +43,4 @@ const Detail = () => {
         );
       })}
     </div>
-  );
-};
 
-export default Detail;
