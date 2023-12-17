@@ -1,0 +1,62 @@
+1. react -> add <Link to={"/detail?id=" + productObj.id}> ->src\components\Listing.jsx -> const Listing = () => { -> return ( -->
+	<Link to={"/detail?id=" + productObj.id}>
+              <img src={productObj.product_image} />
+            </Link>
+
+
+2. react -> create new jsx file -> src\components -->
+	Detail.jsx
+
+
+
+3. react -> src\components\Detail.jsx ->const Detail = () => { -->
+	const [product, setProduct] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const fetchData = () => {
+    return axios
+      .get("http://127.0.0.1:8000/api/detail/" + searchParams.get("id"))
+      .then((response) => setProduct(response.data["product"]));
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+
+4. react -> src\components\Detail.jsx ->const Detail = () => { -> return ( -->
+	<div align="center">
+      {product.map((productObj) => {
+        return (
+          <div key={productObj.id}>
+            <h3>{productObj.product_name}</h3>
+            <img src={productObj.product_image} />
+            <h4>Code: {productObj.product_code}</h4>
+            <h4 style={{ color: "red" }}>Price: {productObj.final_price}</h4>
+            <h4>
+              {productObj.brand.name}/{" "}
+              <Link to={"/listing?url=" + productObj.category.url}>
+                {productObj.category.category_name}
+              </Link>
+            </h4>
+            <h5 style={{ color: "blue" }}>
+              {productObj.product_short_description}
+            </h5>
+          </div>
+        );
+      })}
+    </div>
+
+
+5. react -> create Detail Route -> src\App.jsx -->
+	<Route path="/detail" element={<Detail></Detail>}></Route>
+
+
+
+
+
+
+
+
+
+

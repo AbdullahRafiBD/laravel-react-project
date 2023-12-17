@@ -338,7 +338,7 @@ class APIController extends Controller
             }
 
             return response()->json([
-                'products' => $productDetails,
+                'product' => $productDetails,
                 'status' => true,
                 'message' => 'Product Fetched Sucessfully!',
             ], 200);

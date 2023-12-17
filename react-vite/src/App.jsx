@@ -13,6 +13,7 @@ import Account from "./components/Account";
 import Logout from "./components/Logout";
 import Shop from "./components/Shop";
 import Listing from "./components/Listing";
+import Detail from "./components/Detail";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/about" element={<About></About>}></Route>
         <Route path="/shop" element={<Shop></Shop>}></Route>
         <Route path="/listing" element={<Listing></Listing>}></Route>
+        <Route path="/detail" element={<Detail></Detail>}></Route>
       </Routes>
     </>
   );
