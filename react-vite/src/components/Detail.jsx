@@ -40,7 +40,7 @@ const Detail = () => {
       alert(result["message"]);
     } else if (result["message"] == "Product Added Sucessfully!") {
       alert(result["message"]);
-      navigate("/cart");
+      navigate("/cart?userid=" + userid);
     }
   }
 

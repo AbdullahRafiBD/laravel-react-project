@@ -393,11 +393,11 @@ class APIController extends Controller
         // if user logged in / Pick Auth Id of the user
         $getCartItems = Cart::with(['product' => function ($query) {
             $query->select('id', 'category_id', 'product_name', 'product_code', 'product_color', 'product_image', 'product_price');
-        }])->orderby('id', 'Desc')->where('user_id', $userid)->get()->toArray();
+        }])->orderby('id', 'Desc')->where('user_id', $userid)->get();
 
 
         foreach ($getCartItems as $key => $item) {
-            $getDiscountPrice = Product::getDiscountPrice($item['id']);
+            $getDiscountPrice = Product::getDiscountPrice($item['product_id']);
             if ($getDiscountPrice > 0) {
                 $getCartItems[$key]['product']['final_price'] = 'TAKA ' . $getDiscountPrice;
             } else {
