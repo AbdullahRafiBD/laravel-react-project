@@ -361,8 +361,8 @@ class APIController extends Controller
             // Save Product In Carts Table
             $item = new Cart;
             $item->session_id = 0;
-            $item->user_id = $data['user_id'];
-            $item->product_id = $data['product_id'];
+            $item->user_id = $data['userid'];
+            $item->product_id = $data['productid'];
             $item->size = $data['size'];
             $item->quantity = 1;
             $item->source = 'App';

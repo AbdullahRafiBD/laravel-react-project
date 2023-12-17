@@ -19,7 +19,21 @@ const Detail = () => {
   };
 
   async function addtoCart() {
-    alert("test");
+    // alert("test");
+    var size = searchParams.get("size");
+    var productid = searchParams.get("id");
+    // alert(size);
+    // alert(productid);
+    // alert(userid);
+    let item = { size, productid, userid };
+    // console.warn(item);
+    let result = await fetch("http://127.0.0.1:8000/api/add-to-cart", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(item),
+    });
+    result = await result.json();
+    console.warn(result);
   }
 
   useEffect(() => {
