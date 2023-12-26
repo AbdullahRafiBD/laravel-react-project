@@ -49,4 +49,7 @@ Route::namespace('App\Http\Controllers\API')->group(function () {
 
     // Shopping Cart API
     Route::get('cart/{userid}', 'APIController@cart');
+
+    // Delete Cart Item
+    Route::get('delete-cart-item/{cartid}', 'APIController@deleteCartItem');
 });

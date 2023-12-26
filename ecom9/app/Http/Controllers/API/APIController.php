@@ -411,4 +411,13 @@ class APIController extends Controller
             'status' => true,
         ], 200);
     }
+
+    public function deleteCartItem($cartid)
+    {
+        Cart::where('id', $cartid)->delete();
+        return response()->json([
+            'status' => true,
+            'message' => 'Product Sucessfully Deleted From Cart!',
+        ], 200);
+    }
 }

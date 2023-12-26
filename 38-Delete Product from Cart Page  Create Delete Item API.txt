@@ -1,0 +1,32 @@
+1. laravel -> routes\api.php -> Route::namespace('App\Http\Controllers\API')->group(function () { -->
+	// Delete Cart Item
+    Route::get('delete-cart-item/{cartid}', 'APIController@deleteCartItem');
+
+
+2. laravel -> app\Http\Controllers\API\APIController.php -->
+	public function deleteCartItem($cartid)
+    {
+        Cart::where('id', $cartid)->delete();
+        return response()->json([
+            'status' => true,
+            'message' => 'Product Sucessfully Deleted From Cart!',
+        ], 200);
+    }
+
+
+3. laravel -> Thunder Client API Test -> 
+	GET -> 
+	http://127.0.0.1:8000/delete-cart-item/1 ->
+
+	--> Send Button Click
+
+
+
+
+
+
+
+
+
+
+
