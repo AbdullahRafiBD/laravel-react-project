@@ -27,13 +27,19 @@ const Cart = () => {
               <img src={productObj.product.product_image} />
             </Link>
             <h3>Price:{productObj.product.product_price}</h3>
-            <button type="button" class="close" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+            <Link to={"/delete-cart-item?cartid=" + productObj.id}>
+              <button type="button" className="close" aria-label="Close">
+                <span aria-hidden="true">Delete</span>
+              </button>
+            </Link>
             <hr />
           </div>
         );
       })}
+      <Link to={"/shop"}>
+        <button className="btn btn-info">Continue Shopping</button>
+      </Link>
+      <br /> <br />
       <button className="btn btn-primary">Proceed</button>
     </div>
   );

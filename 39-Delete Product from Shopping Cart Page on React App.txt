@@ -1,0 +1,102 @@
+1. React -> src\components\Cart.jsx -> const Cart = () => { ->  return ( -->
+	<Link to={"/delete-cart-item?cartid=" + productObj.id}>
+	....
+	</Link>
+
+2. React -> delete button code -> src\components\Cart.jsx -> const Cart = () => { ->  return ( -->
+	<Link to={"/delete-cart-item?cartid=" + productObj.id}>
+              <button type="button" className="close" aria-label="Close">
+                <span aria-hidden="true">Delete</span>
+              </button>
+            </Link>
+
+
+3. react -> create new jsx file -> src\components -->
+	Deletecartitem.jsx
+
+
+4.  react -> src\components\Deletecartitem.jsx -> const Deletecartitem = () => { -->
+	let user = JSON.parse(localStorage.getItem("user"));
+  const [userid, setUserid] = useState(user.userDetails.id);
+
+  const [products, setProducts] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const navigate = useNavigate();
+
+  const fetchData = () => {
+    return axios
+      .get(
+        "http://127.0.0.1:8000/api/delete-cart-item/" +
+          searchParams.get("cartid")
+      )
+      .then((response) => setProducts(response.data["message"]));
+  };
+
+  useEffect(() => {
+    fetchData();
+    navigate("/cart?userid=" + userid);
+    // alert("deleted from cart");
+  }, []);
+
+
+5. react -> full page code -> src\components\Deletecartitem.jsx -->
+	import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+
+const Deletecartitem = () => {
+  let user = JSON.parse(localStorage.getItem("user"));
+  const [userid, setUserid] = useState(user.userDetails.id);
+
+  const [products, setProducts] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const navigate = useNavigate();
+
+  const fetchData = () => {
+    return axios
+      .get(
+        "http://127.0.0.1:8000/api/delete-cart-item/" +
+          searchParams.get("cartid")
+      )
+      .then((response) => setProducts(response.data["message"]));
+  };
+
+  useEffect(() => {
+    fetchData();
+    navigate("/cart?userid=" + userid);
+    // alert("deleted from cart");
+  }, []);
+
+  return <div>Deletecartitem</div>;
+};
+
+export default Deletecartitem;
+
+
+
+6. react -> create Deletecartitem Route -> src\App.jsx -->
+	<Route
+          path="/delete-cart-item"
+          element={<Deletecartitem></Deletecartitem>}
+        ></Route>
+
+7. React -> add shopping button on cart page -> src\components\Cart.jsx -> const Cart = () => { ->  return ( -->
+	 <Link to={"/shop"}>
+        <button className="btn btn-info">Continue Shopping</button>
+      </Link>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
