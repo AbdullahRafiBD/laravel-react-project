@@ -2,13 +2,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
-const Cart = () => {
+const Checkout = () => {
   const [products, setProducts] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const fetchData = () => {
     return axios
-      .get("http://127.0.0.1:8000/api/cart/" + searchParams.get("userid"))
+      .get("http://127.0.0.1:8000/api/checkout/" + searchParams.get("userid"))
       .then((response) => setProducts(response.data["products"]));
   };
 
@@ -18,7 +18,7 @@ const Cart = () => {
 
   return (
     <div align="center">
-      <h2>Shopping Cart</h2>
+      <h2>Checkout Cart</h2>
       {products.map((productObj) => {
         return (
           <div key={productObj.id}>
@@ -27,26 +27,22 @@ const Cart = () => {
               <img src={productObj.product.product_image} />
             </Link>
             <h3>Price:{productObj.product.product_price}</h3>
-            <Link to={"/delete-cart-item?cartid=" + productObj.id}>
-              <button type="button" className="close" aria-label="Close">
-                <span aria-hidden="true">Delete</span>
-              </button>
-            </Link>
             <hr />
           </div>
         );
       })}
-      <Link to={"/shop"}>
-        <button className="btn btn-info">Continue Shopping</button>
-      </Link>
-      <br /> <br />
-      <Link to={"/checkout?userid=" + searchParams.get("userid")}>
-        <button className="btn btn-warning">Checkout</button>
-      </Link>
-      <br /> <br />
-      <button className="btn btn-primary">Proceed</button>
+
+      {products.map((productObj) => {
+        return (
+          <div key={productObj.id}>
+            {productObj.product.key === 0 ? (
+              <h4>total Price: {productObj.product.total_price}</h4>
+            ) : null}
+          </div>
+        );
+      })}
     </div>
   );
 };
 
-export default Cart;
+export default Checkout;

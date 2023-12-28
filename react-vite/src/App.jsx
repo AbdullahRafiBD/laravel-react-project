@@ -16,6 +16,7 @@ import Listing from "./components/Listing";
 import Detail from "./components/Detail";
 import Cart from "./components/Cart";
 import Deletecartitem from "./components/Deletecartitem";
+import Checkout from "./components/Checkout";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/listing" element={<Listing></Listing>}></Route>
         <Route path="/detail" element={<Detail></Detail>}></Route>
         <Route path="/cart" element={<Cart></Cart>}></Route>
+        <Route path="/checkout" element={<Checkout></Checkout>}></Route>
         <Route
           path="/delete-cart-item"
           element={<Deletecartitem></Deletecartitem>}
