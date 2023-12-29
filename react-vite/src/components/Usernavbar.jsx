@@ -1,8 +1,11 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
-const Navbar = () => {
-  // const user = JSON.stringify(localStorage.getItem("user"));
+const Usernavbar = () => {
+  //   const user = JSON.stringify(localStorage.getItem("user"));
+  let user = JSON.parse(localStorage.getItem("user"));
+
+  const [userid, setUserid] = useState(user.userDetails.id);
 
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -49,16 +52,45 @@ const Navbar = () => {
               </Link>
             </li>
 
-            <li className="nav-item">
-              <Link to={"/register"} className="nav-link" href="#">
-                Register
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to={"/login"} className="nav-link" href="#">
-                Login
-              </Link>
-            </li>
+            {localStorage.getItem("user") ? (
+              <>
+                <li className="nav-item">
+                  <Link
+                    to={{
+                      pathname: "/cart",
+                      search: "userid=" + userid,
+                    }}
+                    className="nav-link"
+                    href="#"
+                  >
+                    Cart
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to={"/account"} className="nav-link" href="#">
+                    Account
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to={"/logout"} className="nav-link" href="#">
+                    Logout
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="nav-item">
+                  <Link to={"/register"} className="nav-link" href="#">
+                    Register
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to={"/login"} className="nav-link" href="#">
+                    Login
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
           <form className="d-flex" role="search">
             <input
@@ -77,4 +109,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Usernavbar;

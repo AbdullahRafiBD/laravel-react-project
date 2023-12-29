@@ -36,6 +36,7 @@ const Login = () => {
     } else {
       localStorage.setItem("user", JSON.stringify(result));
       navigate("/account");
+      window.location.reload();
     }
     // navigate("/account");
   }

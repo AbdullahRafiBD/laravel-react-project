@@ -1,0 +1,255 @@
+1. react -> create new jsx file -> src\components -->
+	Usernavbar.jsx
+
+
+2. react -> Copy full code from Navbar.jsx -> src\components\Usernavbar.jsx -->
+	main change ->
+	const Usernavbar = () => { -->
+	let user = JSON.parse(localStorage.getItem("user"));
+  	const [userid, setUserid] = useState(user.userDetails.id);
+
+	return ( -> {localStorage.getItem("user") ? ( -->
+	<li className="nav-item">
+                  <Link
+                    to={{
+                      pathname: "/cart",
+                      search: "userid=" + userid,
+                    }}
+                    className="nav-link"
+                    href="#"
+                  >
+                    Cart
+                  </Link>
+                </li>
+	
+
+3. react -> remove Condition -> new full code -> src\components\Navbar.jsx -->
+	import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+const Navbar = () => {
+  // const user = JSON.stringify(localStorage.getItem("user"));
+
+  return (
+    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      <div className="container-fluid">
+        <a className="navbar-brand" href="#">
+          Navbar
+        </a>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon" />
+        </button>
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <li className="nav-item">
+              <Link
+                to={"/"}
+                className="nav-link active"
+                aria-current="page"
+                href="#"
+              >
+                Home
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to={"/about"} className="nav-link" href="#">
+                About
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to={"/contact"} className="nav-link" href="#">
+                Contact
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to={"/shop"} className="nav-link" href="#">
+                Shop
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link to={"/register"} className="nav-link" href="#">
+                Register
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to={"/login"} className="nav-link" href="#">
+                Login
+              </Link>
+            </li>
+          </ul>
+          <form className="d-flex" role="search">
+            <input
+              className="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button className="btn btn-outline-success" type="submit">
+              Search
+            </button>
+          </form>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
+
+
+4. react -> full code -> src\components\Usernavbar.jsx -->
+	import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
+const Usernavbar = () => {
+  //   const user = JSON.stringify(localStorage.getItem("user"));
+  let user = JSON.parse(localStorage.getItem("user"));
+
+  const [userid, setUserid] = useState(user.userDetails.id);
+
+  return (
+    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      <div className="container-fluid">
+        <a className="navbar-brand" href="#">
+          Navbar
+        </a>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon" />
+        </button>
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <li className="nav-item">
+              <Link
+                to={"/"}
+                className="nav-link active"
+                aria-current="page"
+                href="#"
+              >
+                Home
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to={"/about"} className="nav-link" href="#">
+                About
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to={"/contact"} className="nav-link" href="#">
+                Contact
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to={"/shop"} className="nav-link" href="#">
+                Shop
+              </Link>
+            </li>
+
+            {localStorage.getItem("user") ? (
+              <>
+                <li className="nav-item">
+                  <Link
+                    to={{
+                      pathname: "/cart",
+                      search: "userid=" + userid,
+                    }}
+                    className="nav-link"
+                    href="#"
+                  >
+                    Cart
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to={"/account"} className="nav-link" href="#">
+                    Account
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to={"/logout"} className="nav-link" href="#">
+                    Logout
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="nav-item">
+                  <Link to={"/register"} className="nav-link" href="#">
+                    Register
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to={"/login"} className="nav-link" href="#">
+                    Login
+                  </Link>
+                </li>
+              </>
+            )}
+          </ul>
+          <form className="d-flex" role="search">
+            <input
+              className="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button className="btn btn-outline-success" type="submit">
+              Search
+            </button>
+          </form>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default Usernavbar;
+
+
+5. react -> Condition for navbar -> src\App.jsx -> function App() { -->
+	const user = JSON.stringify(localStorage.getItem("user"));
+
+6. react -> Condition for navbar -> src\App.jsx -> function App() { -> return ( -->
+	{localStorage.getItem("user") ? (
+        <>
+          <Usernavbar></Usernavbar>
+        </>
+      ) : (
+        <>
+          <Navbar></Navbar>
+        </>
+      )}
+
+7. react -> Reload in Login.jsx page [window.location.reload();] -> src\components\Login.jsx -> const Login = () => { -> async function loginUser() { -> if (result["email"] == "Email is Required") { ->  else { ->
+	else {
+      localStorage.setItem("user", JSON.stringify(result));
+      navigate("/account");
+      window.location.reload();
+    }
+
+8. react -> Reload in Logout.jsx page [window.location.reload();] -> src\components\Logout.jsx -> const Logout = () => { -> function logout() { --> 
+	function logout() {
+    localStorage.clear();
+    navigate("/login");
+    window.location.reload();
+  }
+	
+
+
+
+

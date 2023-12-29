@@ -1,22 +1,48 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+1.  react -> add input field and Place Order Button -> src\components\Checkout.jsx -> const Checkout = () => { ->  return ( -->
+	<h2>Delivery Address</h2>
+      <div className="col-sm-6">
+        <input type="text" placeholder="Enter Name" className="form-control" />{" "}
+        <br />
+        <input
+          type="text"
+          placeholder="Enter Address"
+          className="form-control"
+        />
+        <br />
+        <input type="text" placeholder="Enter City" className="form-control" />
+        <br />
+        <input type="text" placeholder="Enter State" className="form-control" />
+        <br />
+        <input
+          type="text"
+          placeholder="Enter Country"
+          className="form-control"
+        />
+        <br />
+        <input
+          type="text"
+          placeholder="Enter Pincode"
+          className="form-control"
+        />
+        <br />
+        <input
+          type="text"
+          placeholder="Enter Mobile"
+          className="form-control"
+        />
+        <br />
+        <Link to={"/cart?userid=" + searchParams.get("userid")}>
+          <button className="btn btn-info">Back to Cart</button>
+        </Link>
+        <br /> <br />
+        <Link>
+          <button className="btn btn-warning">Place Order</button>
+        </Link>
+      </div>
 
-const Checkout = () => {
-  const [products, setProducts] = useState([]);
-  const [searchParams, setSearchParams] = useSearchParams();
 
-  const fetchData = () => {
-    return axios
-      .get("http://127.0.0.1:8000/api/checkout/" + searchParams.get("userid"))
-      .then((response) => setProducts(response.data["products"]));
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  return (
+2. react ->Full Code -> src\components\Checkout.jsx -> const Checkout = () => { ->  return ( -->
+	return (
     <div align="center">
       <h2>Checkout Cart</h2>
       {products.map((productObj) => {
@@ -84,6 +110,27 @@ const Checkout = () => {
       </div>
     </div>
   );
-};
 
-export default Checkout;
+
+3. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

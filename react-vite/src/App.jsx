@@ -17,11 +17,21 @@ import Detail from "./components/Detail";
 import Cart from "./components/Cart";
 import Deletecartitem from "./components/Deletecartitem";
 import Checkout from "./components/Checkout";
+import Usernavbar from "./components/Usernavbar";
 
 function App() {
+  const user = JSON.stringify(localStorage.getItem("user"));
   return (
     <>
-      <Navbar></Navbar>
+      {localStorage.getItem("user") ? (
+        <>
+          <Usernavbar></Usernavbar>
+        </>
+      ) : (
+        <>
+          <Navbar></Navbar>
+        </>
+      )}
       <Routes>
         <Route path="/" element={<Home></Home>}></Route>
         <Route path="/Contact" element={<Contact></Contact>}></Route>
